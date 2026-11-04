@@ -214,6 +214,7 @@
 </style>
 <style>
   .revenue-filter-grid{display:grid;grid-template-columns:minmax(240px,1fr) 170px 170px minmax(290px,1.1fr) auto;gap:8px;width:100%;align-items:center}
+  .revenue-page-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.revenue-page-header .page-title{margin-bottom:0}.revenue-csv-button{border:1px solid #796b58;background:#fff;color:#4e4235;border-radius:4px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}.revenue-csv-button:hover{background:#f8f3eb}
   .revenue-date-range{display:grid;grid-template-columns:auto minmax(110px,1fr) auto minmax(110px,1fr);align-items:center;gap:5px;min-width:0}
   .revenue-date-range .filter-input{min-width:0;width:100%}
   .revenue-filter-label{white-space:nowrap}
@@ -230,6 +231,7 @@
   .revenue-type{white-space:nowrap;color:#616161}
   .revenue-id{color:#212121;text-decoration:none}
   .revenue-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
+  .revenue-kpi-section{margin-bottom:22px}.revenue-kpi-section:last-of-type{margin-bottom:24px}.revenue-kpi-section-title{margin:0 0 9px;color:#6f614f;font-size:12px;font-weight:700}.revenue-kpi-section.cancellation .revenue-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:0}.revenue-kpi-section.cancellation .stat-card{background:#fffaf4;border-color:#ead9c6}
   .revenue-kpi-grid .stat-card{display:flex;min-height:128px;margin:0;padding:18px 16px;flex-direction:column;justify-content:center}
   .revenue-kpi-grid .stat-value{line-height:1.2}
   .kpi-delta,.kpi-foot{min-height:16px;margin-top:7px;font-size:11px;font-weight:600}
@@ -246,7 +248,7 @@
   .plan-revenue-share{color:#8a8178}
   .plan-revenue-total{display:flex;justify-content:space-between;margin-top:15px;padding-top:12px;border-top:1px solid #eee8e1;font-size:12px;font-weight:700;color:#4e463d}
   .plan-revenue-note{font-size:10px;color:#857d74;margin:10px 0 0}
-  @media(max-width:900px){.revenue-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-revenue-item{grid-template-columns:86px minmax(80px,1fr) 100px;gap:8px}.revenue-chart-svg{height:180px}}
+  @media(max-width:900px){.revenue-kpi-grid,.revenue-kpi-section.cancellation .revenue-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-revenue-item{grid-template-columns:86px minmax(80px,1fr) 100px;gap:8px}.revenue-chart-svg{height:180px}}
 
   .revenue-detail-button{border:1px solid #757575;background:#fff;color:#212121;padding:4px 10px;font-size:11px;cursor:pointer}
   .revenue-detail-button:hover{background:#f5f5f5}
@@ -439,15 +441,18 @@
   const content=document.querySelector('.main-content .content-wrapper');
   if(!content) return;
   const transactions=[
-    {id:'PAY-001',user:['たろう','U-0001'],type:'Premium登録',item:'1ヶ月プラン',amount:9800,date:'2026/03/20 10:00',status:'成功',revenue:true,stripe:'ch_3A001',premium:{subscription:'sub_001',period:'2026/03/20〜2026/04/20'}},
-    {id:'PAY-002',user:['ゆい','U-0003'],type:'Premium更新',item:'3ヶ月プラン',amount:23400,date:'2026/03/19 15:30',status:'成功',revenue:true,stripe:'ch_3A002',premium:{subscription:'sub_003',period:'2026/03/19〜2026/06/19'}},
-    {id:'PAY-003',user:['さとみ','U-0140'],type:'プラン変更',item:'6ヶ月プラン',amount:34800,date:'2026/03/18 09:20',status:'成功',revenue:true,stripe:'ch_3A003',premium:{subscription:'sub_0140',period:'2026/03/18〜2026/09/18'}},
+    {id:'PAY-001',user:['たろう','U-0001'],type:'Premium新規購入',item:'1ヶ月プラン',amount:9800,date:'2026/03/20 10:00',status:'成功',revenue:true,stripe:'ch_3A001',premium:{subscription:'sub_001',period:'2026/03/20〜2026/04/20'}},
+    {id:'PAY-002',user:['ゆい','U-0003'],type:'Premium自動更新',item:'3ヶ月プラン',amount:23400,date:'2026/03/19 15:30',status:'成功',revenue:true,stripe:'ch_3A002',premium:{subscription:'sub_003',period:'2026/03/19〜2026/06/19'}},
+    {id:'PAY-003',user:['さとみ','U-0140'],type:'Premiumプラン変更による追加決済',item:'6ヶ月プラン',amount:34800,date:'2026/03/18 09:20',status:'成功',revenue:true,stripe:'ch_3A003',premium:{subscription:'sub_0140',period:'2026/03/18〜2026/09/18'}},
     {id:'PAY-004',user:['なお','U-0210'],type:'キャンセル料',item:'BK-005 来店前キャンセル料',amount:4000,date:'2026/03/17 12:10',status:'成功',revenue:false,stripe:'ch_3A004',cancellation:{booking:'BK-005',kind:'予約キャンセル料',liable:'なお（U-0210）',paid:4000,paymentStatus:'成功'}},
     {id:'PAY-005',user:['けいすけ','U-0166'],type:'キャンセル料',item:'BK-008 不来店キャンセル料',amount:5000,date:'2026/03/16 18:40',billingDate:'2026/03/16 18:40',status:'未払い',revenue:false,stripe:'',cancellation:{booking:'BK-008',kind:'不来店キャンセル料',liable:'けいすけ（U-0166）',paid:0,paymentStatus:'未払い'}},
     {id:'PAY-006',user:['なお','U-0210'],type:'キャンセル料',item:'BK-009 両者不来店キャンセル料',amount:7000,date:'2026/03/22 22:00',status:'処理中',revenue:false,stripe:'',cancellation:{booking:'BK-009',kind:'両者不来店キャンセル料',liable:'なお（U-0210）',paid:0,paymentStatus:'処理中'}},
     {id:'PAY-007',user:['はるか','U-0222'],type:'キャンセル料',item:'BK-009 両者不来店キャンセル料',amount:3000,date:'2026/03/22 22:00',status:'未払い',revenue:false,stripe:'',cancellation:{booking:'BK-009',kind:'両者不来店キャンセル料',liable:'はるか（U-0222）',paid:0,paymentStatus:'未払い'}},
-    {id:'PAY-008',user:['あき','U-0042'],type:'Premium登録',item:'12ヶ月プラン',amount:45600,date:'2026/02/20 10:00',status:'成功',revenue:true,stripe:'ch_2B008',premium:{subscription:'sub_0042',period:'2026/02/20〜2027/02/20'}},
-    {id:'PAY-009',user:['りょう','U-0199'],type:'キャンセル料',item:'BK-007 来店前キャンセル料',amount:4000,date:'2026/02/18 11:10',status:'成功',revenue:false,stripe:'ch_2B009',cancellation:{booking:'BK-007',kind:'予約キャンセル料',liable:'りょう（U-0199）',paid:4000,paymentStatus:'成功'}}
+    {id:'PAY-008',user:['あき','U-0042'],type:'Premium新規購入',item:'12ヶ月プラン',amount:45600,date:'2026/02/20 10:00',status:'成功',revenue:true,stripe:'ch_2B008',premium:{subscription:'sub_0042',period:'2026/02/20〜2027/02/20'}},
+    {id:'PAY-009',user:['りょう','U-0199'],type:'キャンセル料',item:'BK-007 来店前キャンセル料',amount:4000,date:'2026/02/18 11:10',status:'成功',revenue:false,stripe:'ch_2B009',cancellation:{booking:'BK-007',kind:'予約キャンセル料',liable:'りょう（U-0199）',paid:4000,paymentStatus:'成功'}},
+    {id:'PAY-010',user:['たろう','U-0001'],type:'Premium返金',item:'1ヶ月プラン',amount:1000,date:'2026/03/21 11:40',status:'成功',revenue:false,stripe:'re_3A010',refundOf:'PAY-001'},
+    {id:'PAY-011',user:['なお','U-0210'],type:'キャンセル料返金',item:'BK-005 来店前キャンセル料',amount:500,date:'2026/03/23 09:15',status:'成功',revenue:false,stripe:'re_3A011',refundOf:'PAY-004',cancellation:{booking:'BK-005',kind:'予約キャンセル料返金',liable:'なお（U-0210）',paid:0,paymentStatus:'返金済み'}},
+    {id:'PAY-012',user:['りな','U-0312'],type:'Premium自動更新',item:'1ヶ月プラン',amount:9800,date:'2026/03/23 14:10',status:'失敗',revenue:false,stripe:'',premium:{subscription:'sub_0312',period:'—'}}
   ];
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=v=>'¥'+Number(v).toLocaleString('ja-JP');
@@ -455,7 +460,7 @@
   // paid_at in the report range, Stripe payment successful, and a Premium transaction only.
   const reportingMonth='2026/03';
   const previousMonth='2026/02';
-  const premiumTypes=new Set(['Premium登録','Premium更新','プラン変更']);
+  const premiumTypes=new Set(['Premium新規購入','Premium自動更新','Premiumプラン変更による追加決済']);
   const planNames=['1ヶ月プラン','3ヶ月プラン','6ヶ月プラン','12ヶ月プラン'];
   const users=[
     {id:'U-0001',status:'正常',paidPremiumActive:true,complimentaryPremium:false},
@@ -466,28 +471,33 @@
     {id:'U-0300',status:'退会済み',paidPremiumActive:false,complimentaryPremium:false},
     {id:'U-0301',status:'正常',paidPremiumActive:true,complimentaryPremium:true}
   ];
-  const isPremiumRevenue=tx=>tx.status==='成功'&&premiumTypes.has(tx.type)&&tx.revenue===true;
+  const isPremiumPayment=tx=>tx.status==='成功'&&premiumTypes.has(tx.type)&&tx.revenue===true;
+  const isPremiumRefund=tx=>tx.status==='成功'&&tx.type==='Premium返金';
+  const isPremiumRevenue=tx=>isPremiumPayment(tx);
   const uniqueTransactions=rows=>{
     const seen=new Set();
     return rows.filter(tx=>{const key=tx.stripe||tx.id;if(seen.has(key)) return false;seen.add(key);return true;});
   };
-  const revenueForMonth=month=>uniqueTransactions(transactions.filter(tx=>tx.date.startsWith(month)&&isPremiumRevenue(tx))).reduce((sum,tx)=>sum+tx.amount,0);
+  const revenueForMonth=month=>uniqueTransactions(transactions.filter(tx=>tx.date.startsWith(month)&&(isPremiumPayment(tx)||isPremiumRefund(tx)))).reduce((sum,tx)=>sum+(isPremiumRefund(tx)?-tx.amount:tx.amount),0);
   const currentRevenue=revenueForMonth(reportingMonth);
   const previousRevenue=revenueForMonth(previousMonth);
-  const eligibleMembers=users.filter(user=>user.status==='正常'||user.status==='制限中').length;
+  const totalMembers=users.length;
   const activePaidPremiumUsers=users.filter(user=>(user.status==='正常'||user.status==='制限中')&&user.paidPremiumActive&&!user.complimentaryPremium).length;
-  const arpu=eligibleMembers ? Math.round(currentRevenue/eligibleMembers) : null;
+  const arpu=totalMembers ? Math.round(currentRevenue/totalMembers) : null;
   const arppu=activePaidPremiumUsers ? Math.round(currentRevenue/activePaidPremiumUsers) : null;
   const change=previousRevenue?((currentRevenue-previousRevenue)/previousRevenue*100):0;
   const changeClass=previousRevenue===0?'neutral':change>=0?'positive':'negative';
   const changeText=previousRevenue===0?'前月 0円':(change>=0?'＋':'')+change.toFixed(1)+'%';
-  const typeOptions=['すべて','Premium登録','Premium更新','プラン変更','キャンセル料'];
+  const cancellationRecovered=uniqueTransactions(transactions.filter(tx=>tx.date.startsWith(reportingMonth)&&tx.status==='成功'&&(tx.type==='キャンセル料'||tx.type==='キャンセル料返金'))).reduce((sum,tx)=>sum+(tx.type==='キャンセル料返金'?-tx.amount:tx.amount),0);
+  const cancellationOutstanding=uniqueTransactions(transactions.filter(tx=>tx.type==='キャンセル料')).reduce((sum,tx)=>sum+Math.max(0,(tx.cancellation?.confirmedAmount ?? tx.amount)-(tx.cancellation?.paid ?? 0)),0);
+  const typeOptions=['すべて','Premium新規購入','Premium自動更新','Premiumプラン変更による追加決済','Premium返金','キャンセル料','キャンセル料返金'];
   const statusOptions=['すべて','成功','失敗','処理中','未払い'];
   let chartMode='monthly';
-  function chartData(mode){if(mode==='daily')return ['03/16','03/17','03/18','03/19','03/20','03/21','03/22'].map(d=>({label:d,value:transactions.filter(x=>x.date.slice(5,10)===d&&isPremiumRevenue(x)).reduce((s,x)=>s+x.amount,0)}));return ['2025/10','2025/11','2025/12','2026/01','2026/02','2026/03'].map(m=>({label:m,value:transactions.filter(x=>x.date.startsWith(m)&&isPremiumRevenue(x)).reduce((s,x)=>s+x.amount,0)}));}
+  function premiumRevenueForDate(match){return uniqueTransactions(transactions.filter(tx=>match(tx)&&(isPremiumPayment(tx)||isPremiumRefund(tx)))).reduce((sum,tx)=>sum+(isPremiumRefund(tx)?-tx.amount:tx.amount),0);}
+  function chartData(mode){if(mode==='daily')return ['03/16','03/17','03/18','03/19','03/20','03/21','03/22'].map(d=>({label:d,value:premiumRevenueForDate(x=>x.date.slice(5,10)===d)}));return ['2025/10','2025/11','2025/12','2026/01','2026/02','2026/03'].map(m=>({label:m,value:premiumRevenueForDate(x=>x.date.startsWith(m))}));}
   function planRevenueData(){
-    const rows=uniqueTransactions(transactions.filter(tx=>tx.date.startsWith(reportingMonth)&&isPremiumRevenue(tx)));
-    return planNames.map(plan=>({plan,value:rows.filter(tx=>tx.item===plan).reduce((sum,tx)=>sum+tx.amount,0)}));
+    const rows=uniqueTransactions(transactions.filter(tx=>tx.date.startsWith(reportingMonth)&&(isPremiumPayment(tx)||isPremiumRefund(tx))));
+    return planNames.map(plan=>({plan,value:rows.filter(tx=>tx.item===plan).reduce((sum,tx)=>sum+(isPremiumRefund(tx)?-tx.amount:tx.amount),0)}));
   }
   function renderPlanRevenue(){
     const data=planRevenueData(), total=data.reduce((sum,x)=>sum+x.value,0);
@@ -500,7 +510,7 @@
   renderChart=()=>{
     renderRevenueChart();
     const title=document.querySelector('.revenue-chart-head > span');
-    if(title) title.textContent='売上推移';
+    if(title) title.textContent=chartMode==='daily'?'日次売上推移':'月次売上推移';
     renderPlanRevenue();
   };
   function renderChart(){
@@ -538,8 +548,11 @@
       statusLabel.before(billingDateLabel,billingDateValue);
     }
   };
-  function render(rows){const old={q:document.getElementById('revQuery')?.value||'',type:document.getElementById('revType')?.value||'すべて',status:document.getElementById('revStatus')?.value||'すべて',from:document.getElementById('revFrom')?.value||'',to:document.getElementById('revTo')?.value||''};content.innerHTML='<div class="page-title">収益・決済管理</div><div class="filter-bar"><div class="revenue-filter-grid"><input id="revQuery" type="text" class="filter-input" placeholder="決済ID・ユーザーID・ニックネームで検索..." value="'+esc(old.q)+'"><select id="revType" class="filter-select">'+typeOptions.map(x=>'<option '+(x===old.type?'selected':'')+'>'+x+'</option>').join('')+'</select><select id="revStatus" class="filter-select">'+statusOptions.map(x=>'<option '+(x===old.status?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="revenue-date-range"><input id="revFrom" type="date" class="filter-input" value="'+esc(old.from)+'"><span>〜</span><input id="revTo" type="date" class="filter-input" value="'+esc(old.to)+'"></div><button id="revFilter" class="filter-button">検索</button></div></div><div class="revenue-kpi-grid"><div class="stat-card"><div class="stat-label">今月の売上</div><div class="stat-value">'+money(currentRevenue)+'</div><div class="kpi-delta '+changeClass+'">'+changeText+'</div></div><div class="stat-card"><div class="stat-label">有料会員数</div><div class="stat-value">'+activePaidPremiumUsers+' 名</div><div class="kpi-foot"></div></div><div class="stat-card"><div class="stat-label">ARPU</div><div class="stat-value">'+(arpu===null?'—':money(arpu))+'</div><div class="kpi-foot">全会員あたり</div></div><div class="stat-card"><div class="stat-label">ARPPU</div><div class="stat-value">'+(arppu===null?'—':money(arppu))+'</div><div class="kpi-foot">有料会員あたり</div></div></div><div id="revenueChart" class="revenue-chart"></div><div id="planRevenueChart" class="plan-revenue-chart"></div><div class="summary-line">全 '+rows.length+' 件 · 表示: 1〜'+Math.min(rows.length,20)+'件</div><div class="table-wrapper"><table class="table"><thead><tr><th>決済ID</th><th>ユーザー</th><th>決済種別</th><th>項目</th><th>金額</th><th>決済日時</th><th>ステータス</th></tr></thead><tbody>'+rows.map(tx=>'<tr><td><a class="revenue-id" data-id="'+esc(tx.id)+'">'+esc(tx.id)+'</a></td><td><a class="booking-detail-link" href="wireframe_SCR204_user_mgmt.html#'+esc(tx.user[1])+'">'+esc(tx.user[0])+'（'+esc(tx.user[1])+'）</a></td><td class="revenue-type">'+esc(tx.type)+'</td><td>'+esc(tx.item)+'</td><td>'+money(tx.amount)+'</td><td>'+esc(tx.date)+'</td><td><span class="revenue-status '+statusClass(tx.status)+'">'+esc(tx.status)+'</span></td></tr>').join('')+'</tbody></table></div><div class="pagination"><span>全 '+rows.length+'件</span><span>20件 / ページ</span></div>';renderChart();content.querySelectorAll('.revenue-id').forEach(a=>a.onclick=()=>openDetail(transactions.find(x=>x.id===a.dataset.id)));document.getElementById('revFilter').onclick=()=>{const q=document.getElementById('revQuery').value.toLowerCase(),type=document.getElementById('revType').value,status=document.getElementById('revStatus').value,from=document.getElementById('revFrom').value.replaceAll('-','/'),to=document.getElementById('revTo').value.replaceAll('-','/');render(transactions.filter(x=>(!q||(x.id+x.user[0]+x.user[1]).toLowerCase().includes(q))&&(!type||type==='すべて'||x.type===type)&&(!status||status==='すべて'||x.status===status)&&(!from||x.date.slice(0,10)>=from)&&(!to||x.date.slice(0,10)<=to)));};}
+  function render(rows){const old={q:document.getElementById('revQuery')?.value||'',type:document.getElementById('revType')?.value||'すべて',status:document.getElementById('revStatus')?.value||'すべて',from:document.getElementById('revFrom')?.value||'',to:document.getElementById('revTo')?.value||''};const premiumKpis='<div class="revenue-kpi-section"><div class="revenue-kpi-grid"><div class="stat-card"><div class="stat-label">今月の売上</div><div class="stat-value">'+money(currentRevenue)+'</div><div class="kpi-delta '+changeClass+'">'+changeText+'</div></div><div class="stat-card"><div class="stat-label">有料会員数</div><div class="stat-value">'+activePaidPremiumUsers+' 名</div><div class="kpi-foot"></div></div><div class="stat-card"><div class="stat-label">ARPU</div><div class="stat-value">'+(arpu===null?'—':money(arpu))+'</div><div class="kpi-foot">Premium売上 ÷ 全会員数</div></div><div class="stat-card"><div class="stat-label">ARPPU</div><div class="stat-value">'+(arppu===null?'—':money(arppu))+'</div><div class="kpi-foot">Premium売上 ÷ 有料会員数</div></div></div></div>';const cancellationKpis='<div class="revenue-kpi-section cancellation"><div class="revenue-kpi-grid"><div class="stat-card"><div class="stat-label">今月のキャンセル料回収額</div><div class="stat-value">'+money(cancellationRecovered)+'</div><div class="kpi-foot">回収額 − 返金額</div></div><div class="stat-card"><div class="stat-label">キャンセル料未回収額</div><div class="stat-value">'+money(cancellationOutstanding)+'</div><div class="kpi-foot">確定済み・未収／一部未収</div></div></div></div>';content.innerHTML='<div class="page-title">収益・決済管理</div><div class="filter-bar"><div class="revenue-filter-grid"><input id="revQuery" type="text" class="filter-input" placeholder="決済ID・ユーザーID・ニックネームで検索..." value="'+esc(old.q)+'"><select id="revType" class="filter-select">'+typeOptions.map(x=>'<option '+(x===old.type?'selected':'')+'>'+x+'</option>').join('')+'</select><select id="revStatus" class="filter-select">'+statusOptions.map(x=>'<option '+(x===old.status?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="revenue-date-range"><input id="revFrom" type="date" class="filter-input" value="'+esc(old.from)+'"><span>〜</span><input id="revTo" type="date" class="filter-input" value="'+esc(old.to)+'"></div><button id="revFilter" class="filter-button">検索</button></div></div>'+premiumKpis+cancellationKpis+'<div id="revenueChart" class="revenue-chart"></div><div id="planRevenueChart" class="plan-revenue-chart"></div><div class="summary-line">全 '+rows.length+' 件 · 表示: 1〜'+Math.min(rows.length,20)+'件</div><div class="table-wrapper"><table class="table"><thead><tr><th>決済ID</th><th>ユーザー</th><th>決済種別</th><th>項目</th><th>金額</th><th>決済日時</th><th>ステータス</th></tr></thead><tbody>'+rows.map(tx=>'<tr><td><a class="revenue-id" data-id="'+esc(tx.id)+'">'+esc(tx.id)+'</a></td><td><a class="booking-detail-link" href="wireframe_SCR204_user_mgmt.html#'+esc(tx.user[1])+'">'+esc(tx.user[0])+'（'+esc(tx.user[1])+'）</a></td><td class="revenue-type">'+esc(tx.type)+'</td><td>'+esc(tx.item)+'</td><td>'+money(tx.amount)+'</td><td>'+esc(tx.date)+'</td><td><span class="revenue-status '+statusClass(tx.status)+'">'+esc(tx.status)+'</span></td></tr>').join('')+'</tbody></table></div><div class="pagination"><span>全 '+rows.length+'件</span><span>20件 / ページ</span></div>';renderChart();content.querySelectorAll('.revenue-id').forEach(a=>a.onclick=()=>openDetail(transactions.find(x=>x.id===a.dataset.id)));document.getElementById('revFilter').onclick=()=>{const q=document.getElementById('revQuery').value.toLowerCase(),type=document.getElementById('revType').value,status=document.getElementById('revStatus').value,from=document.getElementById('revFrom').value.replaceAll('-','/'),to=document.getElementById('revTo').value.replaceAll('-','/');render(transactions.filter(x=>(!q||(x.id+x.user[0]+x.user[1]).toLowerCase().includes(q))&&(!type||type==='すべて'||x.type===type)&&(!status||status==='すべて'||x.status===status)&&(!from||x.date.slice(0,10)>=from)&&(!to||x.date.slice(0,10)<=to)));};}
+  function downloadVisibleCsv(){const quote=value=>'"'+String(value??'').replaceAll('"','""')+'"';const ids=Array.from(content.querySelectorAll('.revenue-id')).map(link=>link.dataset.id);const rows=ids.map(id=>transactions.find(tx=>tx.id===id)).filter(Boolean);const header=['決済ID','ユーザーID','ニックネーム','決済種別','項目','金額（JPY）','決済日時','ステータス'];const csv=[header,...rows.map(tx=>[tx.id,tx.user[1],tx.user[0],tx.type,tx.item,tx.amount,tx.date,tx.status])].map(line=>line.map(quote).join(',')).join('\r\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='revenue-payments-'+reportingMonth.replace('/','-')+'.csv';link.click();URL.revokeObjectURL(url);}
+  function addCsvButton(){const title=content.querySelector(':scope > .page-title');if(!title||content.querySelector('#revenueCsvDownload')) return;const header=document.createElement('div');header.className='revenue-page-header';title.before(header);header.append(title);const button=document.createElement('button');button.id='revenueCsvDownload';button.type='button';button.className='revenue-csv-button';button.textContent='CSVダウンロード';button.onclick=downloadVisibleCsv;header.append(button);}
   function addDetailsColumn(){
+    addCsvButton();
     const query=document.getElementById('revQuery');
     const type=document.getElementById('revType');
     const status=document.getElementById('revStatus');
