@@ -441,5 +441,28 @@
     <p class="user-list-note">退会済みユーザーは、プロフィール情報の保存が許可されている場合のみ一覧に表示します。削除・匿名化済みのユーザーは表示しません。</p>
   </div>
 </div>
+<script>
+  (function syncUserManagementStatus() {
+    const defaults = { '001': '正常', '002': '制限中', '003': '停止中', '005': '正常' };
+    const classes = { '正常': 'normal', '制限中': 'restricted', '停止中': 'suspended', '退会済み': 'withdrawn' };
+    document.querySelectorAll('.table tbody tr').forEach(row => {
+      const userId = row.cells[0]?.textContent.trim();
+      if (!defaults[userId]) return;
+      let status = defaults[userId];
+      try {
+        const state = JSON.parse(localStorage.getItem(`scr204UserManagement_${userId}`) || 'null');
+        if (state) status = state.suspended ? '停止中' : (state.adminRestriction || state.paymentRestriction) ? '制限中' : '正常';
+      } catch (error) { /* use the server-rendered wireframe status */ }
+      const statusCell = row.cells[8];
+      statusCell.innerHTML = `<span class="account-badge ${classes[status] || 'normal'}">● ${status}</span>`;
+      if (status === '正常') {
+        try {
+          const state = JSON.parse(localStorage.getItem(`scr204UserManagement_${userId}`) || 'null');
+          if (state?.warnings?.length) statusCell.insertAdjacentHTML('beforeend', '<span class="account-badge warning">警告中</span>');
+        } catch (error) { /* keep the normal status badge */ }
+      }
+    });
+  })();
+</script>
 </body>
 </html>

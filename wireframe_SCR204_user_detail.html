@@ -259,6 +259,7 @@
     .ekyc-review-details { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee7de; }.ekyc-review-details dl { display: grid; grid-template-columns: 92px 1fr; gap: 6px 12px; margin: 0; font-size: 12px; }.ekyc-review-details dt { color: #766d61; }.ekyc-review-details dd { margin: 0; color: #4b4237; }.ekyc-review-link { margin-top: 12px; }
     .withdrawn-profile-notice { border: 1px solid #e5d8ca; background: #fffaf4; border-radius: 7px; padding: 16px; color: #665947; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }.withdrawn-profile-notice[hidden] { display: none; }
     .admin-modal { display: none; position: fixed; inset: 0; z-index: 1100; background: rgba(0,0,0,.45); align-items: center; justify-content: center; padding: 20px; }.admin-modal.show { display: flex; }.admin-modal-box { width: min(420px, 100%); background: #fff; border-radius: 7px; padding: 20px; box-shadow: 0 12px 36px rgba(0,0,0,.24); }.admin-modal-title { font-size: 16px; font-weight: 700; color: #332d25; margin-bottom: 10px; }.admin-modal-desc { font-size: 13px; color: #665d53; line-height: 1.6; margin-bottom: 16px; }.admin-modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }.admin-modal-field label { display: block; font-size: 12px; color: #6f6559; margin-bottom: 5px; }.admin-modal-field select, .admin-modal-field textarea { width: 100%; border: 1px solid #ddd5c9; border-radius: 3px; padding: 8px; font-size: 13px; }.admin-modal-field textarea { min-height: 70px; resize: vertical; }
+    .admin-modal-field { margin-top: 12px; }.admin-modal-field input { width: 100%; border: 1px solid #ddd5c9; border-radius: 3px; padding: 8px; font-size: 13px; }.admin-notification-preview { border: 1px solid #e5ddd2; background: #faf8f4; border-radius: 4px; padding: 10px; color: #5d5142; font-size: 12px; line-height: 1.55; }.admin-modal-error { display: none; margin-top: 10px; color: #b72f2f; font-size: 12px; }.admin-modal-error.show { display: block; }.admin-action-btn.warning { border-color: #e6c583; background: #fff8e7; color: #9a6700; }.admin-action-btn:disabled { opacity: .55; cursor: wait; }.admin-action-context { border-left: 3px solid #d7c7ae; background: #faf8f4; padding: 9px 10px; color: #5d5142; font-size: 12px; line-height: 1.5; }.restriction-current-period { font-weight: 700; color: #5f503b; }
     .manual-review-modal-box { width: min(760px, 100%); max-height: calc(100vh - 40px); overflow: auto; }.manual-review-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }.manual-review-title-row .admin-modal-title { margin: 0; }.manual-review-status { display: inline-block; padding: 4px 8px; border-radius: 3px; background: #fff0d2; color: #b17100; font-size: 12px; font-weight: 700; }.manual-review-section { padding: 14px 0; border-top: 1px solid #eee7de; }.manual-review-section h4 { margin: 0 0 9px; color: #4b4237; font-size: 13px; }.manual-review-material { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }.manual-review-material-card { border: 1px solid #e5ddd2; border-radius: 5px; padding: 10px; color: #5d5142; font-size: 12px; }.manual-review-material-card strong { display: block; margin-bottom: 8px; }.ekyc-image-preview { height: 155px; overflow: hidden; border-radius: 3px; background: #eee9df; position: relative; }.ekyc-document-preview { background: linear-gradient(135deg, #d9e4e6, #f8f4ea); }.ekyc-document-preview::before { content: ''; position: absolute; left: 16px; top: 17px; width: 66px; height: 98px; border-radius: 4px; background: linear-gradient(#d5a391 0 0) 10px 12px / 45px 42px no-repeat, repeating-linear-gradient(#9ea7a3 0 2px, transparent 2px 10px) 10px 64px / 45px 25px no-repeat, #fffdf8; box-shadow: 0 2px 5px rgba(75,66,55,.18); }.ekyc-document-preview::after { content: 'IDENTITY\A DOCUMENT'; white-space: pre; position: absolute; left: 100px; top: 47px; color: #7a8b8c; font-size: 16px; font-weight: 700; letter-spacing: 1px; }.ekyc-selfie-preview { background: radial-gradient(circle at 50% 35%, #c5a08b 0 26px, transparent 27px), radial-gradient(ellipse at 50% 92%, #6f8094 0 68px, transparent 69px), linear-gradient(135deg, #ccd8dd, #eef2f1); }.ekyc-selfie-preview::after { content: '顔認証画像'; position: absolute; right: 9px; bottom: 8px; padding: 3px 6px; border-radius: 2px; background: rgba(255,255,255,.76); color: #5b6770; font-size: 10px; }.manual-review-table { width: 100%; border-collapse: collapse; font-size: 12px; }.manual-review-table th, .manual-review-table td { padding: 8px 10px; border: 1px solid #e5ddd2; text-align: left; }.manual-review-table th { width: 130px; background: #faf8f4; color: #766d61; font-weight: 600; }.manual-review-footer { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
     .account-status-panel { background: #fff; border: 1px solid #e0d7c9; border-radius: 8px; margin-bottom: 26px; overflow: hidden; }
     .account-status-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 16px; background: #eee8de; color: #332d25; font-size: 14px; font-weight: 700; }
@@ -409,15 +410,15 @@
     </div>
 
     <section class="account-status-panel" aria-label="アカウント状態・対応情報">
-      <div class="account-status-head"><span>アカウント状態・対応情報</span></div>
+      <div class="account-status-head"><span>アカウント状態・対応情報</span><span id="accountStatusHeader" class="admin-chip normal">● 正常</span></div>
       <div class="account-status-body">
         <dl id="accountStatusDetails" class="account-status-grid">
           <dt>対応日時</dt><dd id="accountStatusTime">—</dd>
           <dt>対応理由</dt><dd id="accountStatusReason">現在、対応はありません</dd>
-          <dt>制限期間</dt><dd id="accountStatusPeriod">—</dd>
+          <dt id="accountStatusPeriodLabel">制限期間</dt><dd id="accountStatusPeriod">—</dd>
         </dl>
         <div class="account-history-head"><span>対応履歴</span><a class="account-history-link" href="#">過去の対応を確認</a></div>
-        <div class="account-history-list">
+        <div id="accountHistoryList" class="account-history-list">
           <a class="account-history-item" href="wireframe_SCR223_ngword_detect_detail.html"><span><span>2026/10/08 15:20</span><span>利用制限済み</span></span><strong class="account-history-arrow">›</strong></a>
           <a class="account-history-item" href="wireframe_SCR221_report_detail.html"><span><span>2026/09/18 11:05</span><span>警告済み</span></span><strong class="account-history-arrow">›</strong></a>
         </div>
@@ -621,6 +622,11 @@
 
 <div id="suspendUserModal" class="admin-modal" onclick="closeAdminModal('suspendUserModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">アカウント停止</div><div class="admin-modal-desc">対象ユーザーのログインおよび全機能を停止します。再開は管理者が手動で行います。</div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('suspendUserModal')">キャンセル</button><button type="button" class="btn btn-primary" onclick="confirmSuspendUser()">停止する</button></div></div></div>
 <div id="resumeUserModal" class="admin-modal" onclick="closeAdminModal('resumeUserModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">利用再開</div><div class="admin-modal-desc">このユーザーのアカウント停止を解除し、利用を再開します。</div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('resumeUserModal')">キャンセル</button><button type="button" class="btn btn-primary" onclick="confirmResumeUser()">利用再開する</button></div></div></div>
+<div id="warningModal" class="admin-modal" onclick="closeAdminModal('warningModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">警告を送信</div><div class="admin-modal-desc">対象ユーザーへ、アカウント利用に関する警告を送信します。アカウント状態は変更されません。</div><div class="admin-modal-field"><label for="warningReason">対応理由 <span class="badge-label">必須</span></label><select id="warningReason"><option value="">選択してください</option><option>不適切な言動</option><option>利用規約違反の疑い</option><option>迷惑行為</option></select></div><div class="admin-modal-field"><label>ユーザーへの通知内容</label><div id="warningPreview" class="admin-notification-preview">理由を選択すると、固定テンプレートの通知内容を表示します。</div></div><div id="warningError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('warningModal')">キャンセル</button><button type="button" class="admin-action-btn warning" data-submit-action onclick="submitUserManagementAction('warning')">送信する</button></div></div></div>
+<div id="restrictionModal" class="admin-modal" onclick="closeAdminModal('restrictionModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div id="restrictionModalTitle" class="admin-modal-title">利用制限</div><div class="admin-modal-desc">Premium Features のみを制限します。Free Features は、停止または他の制限がない限り利用できます。</div><div id="restrictionCurrent" class="admin-action-context" hidden></div><div class="admin-modal-field"><label for="restrictionReason">対応理由 <span class="badge-label">必須</span></label><select id="restrictionReason"><option value="">選択してください</option><option>不適切な言動</option><option>利用規約違反</option><option>迷惑行為</option></select></div><div class="admin-modal-field"><label for="restrictionStart">開始日時 (JST) <span class="badge-label">必須</span></label><input id="restrictionStart" type="datetime-local"></div><div class="admin-modal-field"><label for="restrictionEnd">終了日時 (JST) <span class="badge-label">必須</span></label><input id="restrictionEnd" type="datetime-local"></div><div class="admin-modal-field"><label>ユーザーへの通知内容</label><div id="restrictionPreview" class="admin-notification-preview">固定テンプレートの通知を送信します。</div></div><div id="restrictionError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('restrictionModal')">キャンセル</button><button type="button" class="btn btn-primary" data-submit-action onclick="submitUserManagementAction('restriction')">設定する</button></div></div></div>
+<div id="unrestrictModal" class="admin-modal" onclick="closeAdminModal('unrestrictModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">利用制限を解除しますか？</div><div class="admin-modal-desc">対象ユーザーの管理者による利用制限を解除します。</div><div id="unrestrictCurrent" class="admin-action-context"></div><div class="admin-modal-desc" style="margin-top:12px;">この操作は管理者による制限のみを解除します。キャンセル料未払いによる制限は解除されません。</div><div id="unrestrictError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('unrestrictModal')">キャンセル</button><button type="button" class="btn btn-primary" data-submit-action onclick="submitUserManagementAction('unrestrict')">解除する</button></div></div></div>
+<div id="accountSuspendModal" class="admin-modal" onclick="closeAdminModal('accountSuspendModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">アカウント停止</div><div class="admin-modal-desc">対象ユーザーはアプリを継続利用できなくなります。再開はユーザー管理でのみ手動で行えます。</div><div class="admin-modal-field"><label for="suspensionReason">対応理由 <span class="badge-label">必須</span></label><select id="suspensionReason"><option value="">選択してください</option><option>重大な利用規約違反</option><option>迷惑行為</option><option>安全上の懸念</option></select></div><div class="admin-modal-field"><label>ユーザーへの通知内容</label><div id="suspensionPreview" class="admin-notification-preview">理由を選択すると、固定テンプレートの通知内容を表示します。</div></div><div id="suspensionError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('accountSuspendModal')">キャンセル</button><button type="button" class="admin-action-btn danger" data-submit-action onclick="submitUserManagementAction('suspend')">停止する</button></div></div></div>
+<div id="accountRestoreModal" class="admin-modal" onclick="closeAdminModal('accountRestoreModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">アカウントの利用を再開しますか？</div><div class="admin-modal-desc">対象ユーザーのアカウント停止を解除します。現在も有効な利用制限・未払いによる制限は引き続き適用され、利用権限は現在のサブスクリプション状態とあわせて再計算されます。</div><div id="restoreError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('accountRestoreModal')">キャンセル</button><button type="button" class="btn btn-primary" data-submit-action onclick="submitUserManagementAction('restore')">再開する</button></div></div></div>
 <div id="ekycManualReviewModal" class="admin-modal" onclick="closeAdminModal('ekycManualReviewModal')"><div class="admin-modal-box manual-review-modal-box" onclick="event.stopPropagation()"><div class="manual-review-title-row"><div class="admin-modal-title">本人確認・手動審査</div><div class="manual-review-status">要確認</div></div><div class="admin-modal-desc">ユーザーID: <span id="ekycManualUserId">U-0001</span> · eKYC審査の確認</div><section class="manual-review-section"><h4>審査資料</h4><div class="manual-review-material"><div class="manual-review-material-card"><strong>本人確認書類</strong><div class="ekyc-image-preview ekyc-document-preview" aria-label="本人確認書類の画像プレビュー"></div></div><div class="manual-review-material-card"><strong>顔認証画像</strong><div class="ekyc-image-preview ekyc-selfie-preview" aria-label="顔認証画像のプレビュー"></div></div></div></section><section class="manual-review-section"><h4>自動審査結果</h4><table class="manual-review-table"><tbody><tr><th>判定結果</th><td>要確認</td></tr><tr><th>判定理由</th><td>顔照合の再確認が必要</td></tr><tr><th>審査日時</th><td>2026/10/29 10:30</td></tr></tbody></table></section><section class="manual-review-section"><h4>管理者の判定理由</h4><div class="admin-modal-field"><textarea id="ekycManualReason" placeholder="手動審査の判定理由を入力"></textarea></div></section><div class="manual-review-footer"><button type="button" class="btn btn-outline" onclick="closeAdminModal('ekycManualReviewModal')">キャンセル</button><button type="button" class="admin-action-btn" onclick="confirmManualEkyc('再提出依頼')">再提出を依頼</button><button type="button" class="admin-action-btn danger" onclick="confirmManualEkyc('NG')">否認する</button><button type="button" class="btn btn-primary" onclick="confirmManualEkyc('承認済み')">承認する</button></div></div></div>
 
 <script>
@@ -686,7 +692,7 @@
   const statusByUserId = {
     '001': { status: '正常', className: 'normal', time: '—', reason: '現在、対応はありません', period: '—', ekyc: '承認済み' },
     '002': { status: '制限中', className: 'restricted', time: '2026/10/08 15:20', reason: 'NGワード検知・繰り返しの不適切な発言', period: '2026/10/08 ～ 2026/10/15', ekyc: '承認済み' },
-    '003': { status: '停止中', className: 'suspended', time: '2026/10/05 09:30', reason: '重大な利用規約違反', period: '無期限', ekyc: 'NG' },
+    '003': { status: '停止中', className: 'suspended', time: '2026/10/05 09:30', reason: '利用規約違反', period: '無期限', ekyc: 'NG' },
     '004': { status: '退会済み', className: 'withdrawn', time: '2026/10/03 18:00', reason: 'ユーザーによる退会', period: '—', ekyc: '未申請', profileAvailable: false },
     '005': { status: '正常', className: 'normal', time: '—', reason: '現在、対応はありません', period: '—', ekyc: '要確認', warning: true }
   };
@@ -729,6 +735,7 @@
     adminAccountStatus.innerHTML = `<span class="admin-chip ${status.className}">● ${status.status}</span>`;
     if (status.warning) adminAccountStatus.insertAdjacentHTML('beforeend', '<span class="admin-chip warning">警告中</span>');
     if (status.status === '停止中') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn" onclick="openAdminModal(\'resumeUserModal\')">利用再開</button>';
+    else if (status.status === '制限中') adminAccountActions.innerHTML = '';
     else if (status.status === '退会済み') adminAccountActions.innerHTML = '<span class="admin-action-note">退会済みのアカウントは閲覧のみです。</span>';
     else adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn danger" onclick="openAdminModal(\'suspendUserModal\')">アカウント停止</button>';
   }
@@ -776,6 +783,160 @@
     ekycOverrideRecord.textContent = `判定理由：${reason}　／　処理日時：${record.time}`; ekycOverrideRecord.hidden = false;
     closeAdminModal('ekycManualReviewModal');
   }
+
+  // User Detail actions are account operations only. They never create or close a Report/NG-word case.
+  const userManagementStorageKey = `scr204UserManagement_${requestedUserId}`;
+  const baselineManagementState = {
+    suspended: accountStatus.status === '停止中',
+    adminRestriction: requestedUserId === '002' ? { startAt: '2026-10-08T15:20', endAt: '2026-10-15T23:59', reason: '不適切な言動' } : null,
+    paymentRestriction: null,
+    warnings: [],
+    history: []
+  };
+  let userManagementState;
+  try { userManagementState = JSON.parse(localStorage.getItem(userManagementStorageKey)) || baselineManagementState; }
+  catch (error) { userManagementState = baselineManagementState; }
+  const notificationReasons = [
+    { code: 'INAPPROPRIATE_MESSAGE', label: '不適切なメッセージの送信' },
+    { code: 'NUISANCE', label: '迷惑行為' },
+    { code: 'TERMS_VIOLATION', label: '利用規約違反' },
+    { code: 'INAPPROPRIATE_PROFILE', label: '不適切なプロフィール内容' },
+    { code: 'OTHER', label: 'その他' }
+  ];
+  const notificationEditor = {};
+  const actionReasonLabels = { warning: '警告済み', restriction: '利用制限', unrestrict: '利用制限を解除', suspend: 'アカウント停止', restore: '利用再開' };
+  const toJst = value => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(value)).replace(/\//g, '/');
+  const inputToJstLabel = value => value ? value.replace('T', ' ') : '—';
+  const nowInput = () => { const p = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).reduce((o, x) => (o[x.type] = x.value, o), {}); return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`; };
+  function activeRestriction() { return userManagementState.adminRestriction || userManagementState.paymentRestriction; }
+  function actualAccountStatus() {
+    if (accountStatus.profileAvailable === false) return { status: '退会済み', className: 'withdrawn' };
+    if (userManagementState.suspended) return { status: '停止中', className: 'suspended' };
+    if (activeRestriction()) return { status: '制限中', className: 'restricted' };
+    return { status: '正常', className: 'normal' };
+  }
+  function currentRestrictionText(restriction) { return `${inputToJstLabel(restriction.startAt)} ～ ${inputToJstLabel(restriction.endAt)}`; }
+  function addManagementHistory(actionType, reason, before, after, restriction, notification) {
+    userManagementState.history.unshift({ user_id: `U-${requestedUserId.padStart(4, '0')}`, action_type: actionType, notification_reason_code: notification?.reasonCode || null, notification_reason_label: reason || null, notification_content_snapshot: notification?.content || null, action_start_at: restriction?.startAt || null, action_end_at: restriction?.endAt || null, acted_at: new Date().toISOString(), acted_by_admin_id: 'ADMIN-001', source: 'USER_MANAGEMENT', source_case_id: null, previous_account_status: before, new_account_status: after, in_app_notification_status: notification ? 'QUEUED' : null, email_delivery_status: notification ? 'QUEUED' : null });
+  }
+  function saveManagementState() { localStorage.setItem(userManagementStorageKey, JSON.stringify(userManagementState)); }
+  function renderManagementHistory() {
+    const historyList = document.getElementById('accountHistoryList');
+    historyList.querySelectorAll('[data-user-management-history]').forEach(item => item.remove());
+    userManagementState.history.forEach(item => {
+      const row = document.createElement('div'); row.className = 'account-history-item'; row.dataset.userManagementHistory = 'true';
+      const text = document.createElement('span'); const date = document.createElement('span'); const label = document.createElement('span');
+      date.textContent = toJst(item.acted_at); label.textContent = `${actionReasonLabels[item.action_type]}（${item.notification_reason_label || item.reason || '—'}）`;
+      text.append(date, label); row.append(text); historyList.prepend(row);
+    });
+  }
+  function renderManagement() {
+    const current = actualAccountStatus(); const restriction = activeRestriction();
+    heroAccountStatus.textContent = `● ${current.status}`; heroAccountStatus.className = `admin-chip ${current.className}`;
+    const accountStatusHeader = document.getElementById('accountStatusHeader');
+    accountStatusHeader.textContent = `● ${current.status}`; accountStatusHeader.className = `admin-chip ${current.className}`;
+    adminAccountStatus.innerHTML = `<span class="admin-chip ${current.className}">● ${current.status}</span>${userManagementState.warnings.length ? '<span class="admin-chip warning">警告中</span>' : ''}`;
+    const detailsVisible = current.status !== '正常' || userManagementState.history.length > 0;
+    document.getElementById('accountStatusDetails').hidden = !detailsVisible;
+    const latestAction = userManagementState.history[0];
+    document.getElementById('accountStatusTime').textContent = restriction ? inputToJstLabel(restriction.startAt) : latestAction ? toJst(latestAction.acted_at) : accountStatus.time;
+    document.getElementById('accountStatusReason').textContent = current.status === '停止中' ? (latestAction?.notification_reason_label || latestAction?.reason || accountStatus.reason) : restriction ? (restriction === userManagementState.paymentRestriction ? 'キャンセル料未払い' : restriction.reason) : latestAction?.action_type === 'warning' ? (latestAction.notification_reason_label || latestAction.reason) : '現在、対応はありません';
+    document.getElementById('accountStatusPeriod').textContent = restriction ? currentRestrictionText(restriction) : '—';
+    document.getElementById('accountStatusPeriodLabel').hidden = current.status === '停止中';
+    document.getElementById('accountStatusPeriod').hidden = current.status === '停止中';
+    if (current.status === '正常') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn warning" onclick="openUserManagementModal(\'warning\')">警告</button><button type="button" class="admin-action-btn" onclick="openUserManagementModal(\'restriction\')">利用制限</button><button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button>';
+    else if (current.status === '制限中' && userManagementState.adminRestriction) adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn warning" onclick="openUserManagementModal(\'warning\')">警告</button><button type="button" class="admin-action-btn" onclick="openUserManagementModal(\'unrestrict\')">利用制限を解除</button><button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button>';
+    else if (current.status === '制限中') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn warning" onclick="openUserManagementModal(\'warning\')">警告</button><button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button><span class="admin-action-note">キャンセル料未払いによる制限は、ここでは変更できません。</span>';
+    else if (current.status === '停止中') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn" onclick="openUserManagementModal(\'restore\')">利用再開</button>';
+    else adminAccountActions.innerHTML = '';
+    renderManagementHistory();
+  }
+  function setPreview(id, message) { const node = document.getElementById(id); if ('value' in node) node.value = message; else node.textContent = message; }
+  function notificationTemplate(action, reasonCode, restriction, otherReason = '') {
+    const reason = notificationReasons.find(item => item.code === reasonCode)?.label || 'その他';
+    const actionLead = action === 'warning' ? '今後は利用規約およびコミュニティガイドラインを遵守いただきますようお願いいたします。' : action === 'suspend' ? 'アカウントの利用を停止しました。利用再開は運営による手続き後に行われます。' : `指定期間は Premium Features をご利用いただけません。${restriction ? `\n制限期間：${currentRestrictionText(restriction)}` : ''}`;
+    const reasonLead = reasonCode === 'INAPPROPRIATE_MESSAGE' ? 'メッセージの内容に、コミュニティガイドラインに抵触する表現が確認されました。' : reasonCode === 'OTHER' ? `${otherReason || 'その他の理由'}が確認されました。` : `${reason}が確認されました。`;
+    return `Otona Table運営事務局です。\n\n${reasonLead}\n\n${actionLead}\n\nご不明な点はサポートまでお問い合わせください。`;
+  }
+  function installNotificationEditor(action, modalId, reasonId, contentId) {
+    const modal = document.getElementById(modalId); const select = document.getElementById(reasonId); const content = document.getElementById(contentId);
+    select.innerHTML = '<option value="">選択してください</option>' + notificationReasons.map(item => `<option value="${item.code}">${item.label}</option>`).join('');
+    select.closest('.admin-modal-field').querySelector('label').textContent = '通知理由 *';
+    content.outerHTML = `<textarea id="${contentId}" class="form-textarea" aria-label="通知文"></textarea>`;
+    const textarea = document.getElementById(contentId); const field = textarea.closest('.admin-modal-field'); field.querySelector('label').textContent = '通知文 *';
+    modal.querySelector('.admin-modal-desc').insertAdjacentHTML('afterend', `<div class="admin-modal-field"><label>対象ユーザー</label><div class="readonly-value">ユーザーID: U-${requestedUserId.padStart(4, '0')}</div></div>`);
+    select.closest('.admin-modal-field').insertAdjacentHTML('afterend', '<div class="admin-modal-field" data-other-reason-field hidden><label>その他の理由 *</label><input type="text" data-other-reason maxlength="200"></div>');
+    const otherField = modal.querySelector('[data-other-reason-field]'); const otherInput = modal.querySelector('[data-other-reason]');
+    notificationEditor[action] = { select, textarea, otherField, otherInput, lastReason: '', dirty: false };
+    textarea.addEventListener('input', () => { notificationEditor[action].dirty = true; });
+    select.addEventListener('change', event => {
+      const editor = notificationEditor[action]; const nextReason = event.target.value;
+      if (editor.dirty && editor.lastReason && nextReason !== editor.lastReason && !confirm('通知理由を変更すると、入力中の通知文はテンプレートで上書きされます。続けますか？')) { event.target.value = editor.lastReason; return; }
+      editor.otherField.hidden = nextReason !== 'OTHER'; if (nextReason !== 'OTHER') editor.otherInput.value = '';
+      const restriction = action === 'restriction' ? { startAt: document.getElementById('restrictionStart').value, endAt: document.getElementById('restrictionEnd').value } : null;
+      textarea.value = nextReason ? notificationTemplate(action, nextReason, restriction, editor.otherInput.value.trim()) : ''; editor.lastReason = nextReason; editor.dirty = false;
+    });
+    otherInput.addEventListener('input', () => { const editor = notificationEditor[action]; if (editor.lastReason === 'OTHER' && !editor.dirty) { const restriction = action === 'restriction' ? { startAt: document.getElementById('restrictionStart').value, endAt: document.getElementById('restrictionEnd').value } : null; textarea.value = notificationTemplate(action, 'OTHER', restriction, otherInput.value.trim()); } });
+  }
+  function resetNotificationEditor(action, restriction) {
+    const editor = notificationEditor[action]; editor.select.value = ''; editor.textarea.value = ''; editor.otherInput.value = ''; editor.otherField.hidden = true; editor.lastReason = ''; editor.dirty = false;
+    if (restriction) { /* dates are represented when a template is chosen */ }
+  }
+  function showManagementError(id, message = '') { const node = document.getElementById(id); node.textContent = message; node.classList.toggle('show', Boolean(message)); }
+  function openUserManagementModal(action) {
+    document.querySelectorAll('.admin-modal-error').forEach(node => node.classList.remove('show'));
+    if (action === 'warning') { resetNotificationEditor('warning'); openAdminModal('warningModal'); }
+    if (action === 'restriction') {
+      const current = userManagementState.adminRestriction;
+      document.getElementById('restrictionModalTitle').textContent = '利用制限';
+      document.getElementById('restrictionCurrent').hidden = !current;
+      document.getElementById('restrictionCurrent').innerHTML = current ? `現在の管理者による制限：<span class="restriction-current-period">${currentRestrictionText(current)}</span>` : '';
+      document.getElementById('restrictionStart').value = nowInput();
+      document.getElementById('restrictionStart').readOnly = false;
+      document.getElementById('restrictionEnd').value = '';
+      document.querySelector('#restrictionModal [data-submit-action]').textContent = '設定する';
+      resetNotificationEditor('restriction', current); openAdminModal('restrictionModal');
+    }
+    if (action === 'unrestrict') { document.getElementById('unrestrictCurrent').textContent = `管理者による制限：${currentRestrictionText(userManagementState.adminRestriction)}`; openAdminModal('unrestrictModal'); }
+    if (action === 'suspend') { resetNotificationEditor('suspend'); openAdminModal('accountSuspendModal'); }
+    if (action === 'restore') openAdminModal('accountRestoreModal');
+  }
+  function setSubmitting(submitting) { document.querySelectorAll('[data-submit-action]').forEach(button => button.disabled = submitting); }
+  function submitUserManagementAction(action) {
+    const before = actualAccountStatus().status; let reason = ''; let restriction = null; let notification = null; let errorId = `${action}Error`;
+    const editorForAction = action === 'warning' ? notificationEditor.warning : action === 'restriction' ? notificationEditor.restriction : action === 'suspend' ? notificationEditor.suspend : null;
+    if (editorForAction) {
+      const reasonCode = editorForAction.select.value; const content = editorForAction.textarea.value.trim();
+      if (!reasonCode || !content || (reasonCode === 'OTHER' && !editorForAction.otherInput.value.trim())) return showManagementError(errorId, reasonCode === 'OTHER' ? 'その他の理由と通知文を入力してください。' : '通知理由と通知文を入力してください。');
+      reason = reasonCode === 'OTHER' ? editorForAction.otherInput.value.trim() : notificationReasons.find(item => item.code === reasonCode).label; notification = { reasonCode, content };
+    }
+    if (action === 'restriction') {
+      const startAt = document.getElementById('restrictionStart').value; const endAt = document.getElementById('restrictionEnd').value;
+      if (!startAt || !endAt) return showManagementError(errorId, '開始日時、終了日時をすべて入力してください。');
+      if (new Date(endAt) <= new Date(startAt)) return showManagementError(errorId, '終了日時は開始日時より後にしてください。');
+      restriction = { startAt, endAt, reason }; errorId = 'restrictionError';
+    }
+    if (action === 'suspend' && !notification) return showManagementError('suspensionError', '通知理由と通知文を入力してください。');
+    const stateBeforeCommit = JSON.stringify(userManagementState); setSubmitting(true);
+    try {
+      if (action === 'warning') userManagementState.warnings.push({ reason, notification_content: notification.content, sent_at: new Date().toISOString() });
+      if (action === 'restriction') userManagementState.adminRestriction = restriction;
+      if (action === 'unrestrict') { restriction = userManagementState.adminRestriction; reason = restriction.reason; userManagementState.adminRestriction = null; }
+      if (action === 'suspend') userManagementState.suspended = true;
+      if (action === 'restore') userManagementState.suspended = false;
+      const after = actualAccountStatus().status; addManagementHistory(action, reason || '管理者操作', before, after, restriction, notification); saveManagementState();
+      ['warningModal', 'restrictionModal', 'unrestrictModal', 'accountSuspendModal', 'accountRestoreModal'].forEach(closeAdminModal); renderManagement();
+    } catch (error) { userManagementState = JSON.parse(stateBeforeCommit); showManagementError(errorId, '処理に失敗しました。画面を更新して再度お試しください。'); }
+    finally { setSubmitting(false); }
+  }
+  installNotificationEditor('warning', 'warningModal', 'warningReason', 'warningPreview');
+  installNotificationEditor('restriction', 'restrictionModal', 'restrictionReason', 'restrictionPreview');
+  installNotificationEditor('suspend', 'accountSuspendModal', 'suspensionReason', 'suspensionPreview');
+  ['restrictionStart', 'restrictionEnd'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+    const editor = notificationEditor.restriction;
+    if (editor.lastReason && !editor.dirty) editor.textarea.value = notificationTemplate('restriction', editor.lastReason, { startAt: document.getElementById('restrictionStart').value, endAt: document.getElementById('restrictionEnd').value }, editor.otherInput.value.trim());
+  }));
+  renderManagement();
 
   const photoCount = document.getElementById('profilePhotoCount');
   const photoModal = document.getElementById('profilePhotoModal');

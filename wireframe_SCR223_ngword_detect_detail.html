@@ -263,7 +263,7 @@
       <div class="card-body" style="padding: 0;">
         <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
           <thead style="background: #f5f5f5;"><tr><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">日時</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">種別</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">理由・内容</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">対応結果</th></tr></thead>
-          <tbody><tr><td style="padding: 10px; border-bottom: 1px solid #eee;">2026/10/01</td><td style="padding: 10px; border-bottom: 1px solid #eee;">ユーザー通報</td><td style="padding: 10px; border-bottom: 1px solid #eee;">不適切なメッセージ</td><td style="padding: 10px; border-bottom: 1px solid #eee;">警告済み</td></tr></tbody>
+          <tbody><tr><td id="violationHistoryTime" style="padding: 10px; border-bottom: 1px solid #eee;">2026/10/01 10:30</td><td style="padding: 10px; border-bottom: 1px solid #eee;">ユーザー通報</td><td id="violationHistoryReason" style="padding: 10px; border-bottom: 1px solid #eee;">不適切なメッセージの送信</td><td style="padding: 10px; border-bottom: 1px solid #eee;">警告済み</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -341,6 +341,7 @@
     document.getElementById('resolutionRows').hidden = false;
     document.getElementById('resolutionTime').textContent = data.time;
     document.getElementById('resolutionType').textContent = data.result;
+    if (data.notification_reason_label) { document.getElementById('violationHistoryTime').textContent = data.time; document.getElementById('violationHistoryReason').textContent = data.notification_reason_label; }
     document.querySelectorAll('[data-resolution-action]').forEach(function (button) { button.disabled = true; });
   }
   function submitReportAction(action, modalId) {
@@ -355,6 +356,28 @@
       var saved = JSON.parse(localStorage.getItem(reportStorageKey));
       if (saved && saved.result) renderReportResolution(saved);
     } catch (e) { localStorage.removeItem(reportStorageKey); }
+  })();
+  (function applyQa143NotificationEditor() {
+    var actions = { warning: 'warnModal', restriction: 'restrictModal', suspension: 'suspendModal' };
+    var reasons = [{ code: 'INAPPROPRIATE_MESSAGE', label: '不適切なメッセージの送信' }, { code: 'NUISANCE', label: '迷惑行為' }, { code: 'TERMS_VIOLATION', label: '利用規約違反' }, { code: 'INAPPROPRIATE_PROFILE', label: '不適切なプロフィール内容' }, { code: 'OTHER', label: 'その他' }];
+    function template(action, label, otherReason) { var lead = action === 'warning' ? '今後は利用規約およびコミュニティガイドラインを遵守いただきますようお願いいたします。' : action === 'restriction' ? '指定期間は Premium Features をご利用いただけません。' : 'アカウントの利用を停止しました。利用再開は運営による手続き後に行われます。'; var reason = label === '不適切なメッセージの送信' ? 'メッセージの内容に、コミュニティガイドラインに抵触する表現が確認されました。' : label === 'その他' ? (otherReason || 'その他の理由') + 'が確認されました。' : label + 'が確認されました。'; return 'Otona Table運営事務局です。\n\n' + reason + '\n\n' + lead + '\n\nご不明な点はサポートまでお問い合わせください。'; }
+    Object.keys(actions).forEach(function(action) {
+      var modal = document.getElementById(actions[action]); var buttonBar = modal.querySelector('.modal-actions'); var textarea = modal.querySelector('textarea');
+      var reasonField = document.createElement('div'); reasonField.className = 'modal-field'; reasonField.innerHTML = '<label>通知理由 *</label><select data-qa-reason style="width:100%;border:1px solid #e0e0e0;padding:8px 10px;font-size:13px"><option value="">選択してください</option>' + reasons.map(function(item) { return '<option value="' + item.code + '">' + item.label + '</option>'; }).join('') + '</select>';
+      var otherField = document.createElement('div'); otherField.className = 'modal-field'; otherField.hidden = true; otherField.innerHTML = '<label>その他の理由 *</label><input data-qa-other-reason type="text" maxlength="200">'; buttonBar.before(otherField);
+      if (!textarea) { var contentField = document.createElement('div'); contentField.className = 'modal-field'; contentField.innerHTML = '<label>通知文 *</label><textarea data-qa-content></textarea>'; buttonBar.before(contentField); textarea = contentField.querySelector('textarea'); } else { textarea.closest('.modal-field').querySelector('label').textContent = '通知文 *'; textarea.dataset.qaContent = ''; }
+      textarea.closest('.modal-field').before(reasonField); reasonField.after(otherField); var select = reasonField.querySelector('select'); var otherInput = otherField.querySelector('input'); var dirty = false; var last = ''; textarea.addEventListener('input', function(){ dirty = true; });
+      select.addEventListener('change', function(){ if (dirty && last && select.value !== last && !confirm('通知理由を変更すると、入力中の通知文はテンプレートで上書きされます。続けますか？')) { select.value = last; return; } var chosen = reasons.filter(function(item){ return item.code === select.value; })[0]; otherField.hidden = select.value !== 'OTHER'; if (select.value !== 'OTHER') otherInput.value = ''; textarea.value = chosen ? template(action, chosen.label, otherInput.value.trim()) : ''; last = select.value; dirty = false; });
+      otherInput.addEventListener('input', function(){ if (last === 'OTHER' && !dirty) textarea.value = template(action, 'その他', otherInput.value.trim()); });
+    });
+    var originalSubmit = submitReportAction;
+    submitReportAction = function(action, modalId) {
+      if (!actions[action]) return originalSubmit(action, modalId);
+      var modal = document.getElementById(modalId); var reason = modal.querySelector('[data-qa-reason]'); var content = modal.querySelector('[data-qa-content]');
+      var otherReason = modal.querySelector('[data-qa-other-reason]'); if (!reason.value || !content.value.trim() || (reason.value === 'OTHER' && !otherReason.value.trim())) { alert(reason.value === 'OTHER' ? 'その他の理由と通知文を入力してください。' : '通知理由と通知文を入力してください。'); return; }
+      var selected = reasons.filter(function(item){ return item.code === reason.value; })[0]; var data = { result: reportActionLabels[action].result, time: reportTime(), source: 'REPORT_MONITORING', source_case_id: reportRecordId, notification_reason_code: reason.value, notification_reason_label: reason.value === 'OTHER' ? otherReason.value.trim() : selected.label, notification_content_snapshot: content.value.trim(), in_app_notification_status: 'QUEUED', email_delivery_status: 'QUEUED' };
+      modal.querySelectorAll('button').forEach(function(button){ button.disabled = true; }); closeAdminModal(modalId); localStorage.setItem(reportStorageKey, JSON.stringify(data)); document.getElementById('violationHistoryTime').textContent = data.time; document.getElementById('violationHistoryReason').textContent = data.notification_reason_label; renderReportResolution(data);
+    };
   })();
 </script>
 </body>
