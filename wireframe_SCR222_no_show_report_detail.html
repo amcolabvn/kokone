@@ -47,6 +47,11 @@
     .user-name { font-weight: bold; font-size: 13px; }
     .user-id { font-size: 11px; color: #757575; }
     .action-link { color: #1976d2; font-size: 12px; text-decoration: none; display: inline-block; margin-top: 10px; }
+    .history-tabs { display: inline-flex; gap: 2px; padding: 3px; background: #eeeeee; border-radius: 4px; }
+    .history-tab { border: 0; border-radius: 3px; background: transparent; color: #616161; cursor: pointer; font-size: 12px; font-weight: 600; padding: 7px 16px; }
+    .history-tab[aria-selected="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.18); color: #212121; }
+    .history-description { margin: 12px 0 14px; color: #757575; font-size: 12px; }
+    .history-empty { color: #757575; font-size: 13px; padding: 30px 10px; text-align: center; }
     .action-bar { margin-top: 32px; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
     .btn { height: 36px; padding: 0 16px; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 4px; border: none; }
     .btn-outline { border: 1px solid #e0e0e0; background: #fff; color: #424242; }
@@ -299,12 +304,20 @@
     </div>
 
     <div class="card">
-      <div class="card-header"><div class="card-title">対象ユーザーの通報・違反履歴</div></div>
-      <div class="card-body" style="padding: 0;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+      <div class="card-header"><div class="card-title">関係ユーザーの通報・違反履歴</div></div>
+      <div class="card-body" style="padding: 16px 16px 0;">
+        <div class="history-tabs" role="tablist" aria-label="履歴を表示するユーザー">
+          <button type="button" class="history-tab" role="tab" aria-selected="false" data-history-user="reporter">報告者</button>
+          <button type="button" class="history-tab" role="tab" aria-selected="true" data-history-user="absent">未来店ユーザー</button>
+        </div>
+        <div class="history-description" id="historyDescription">未来店ユーザーの過去の通報・違反履歴を表示</div>
+      </div>
+      <div id="historyPanel" role="tabpanel" aria-live="polite">
+        <table id="historyTable" style="width: 100%; border-collapse: collapse; font-size: 13px;">
           <thead style="background: #f5f5f5;"><tr><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">日時</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">種別</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">理由・内容</th><th style="padding: 10px; text-align: left; border-bottom: 1px solid #e0e0e0;">対応結果</th></tr></thead>
-          <tbody><tr><td style="padding: 10px; border-bottom: 1px solid #eee;">2026/10/01</td><td style="padding: 10px; border-bottom: 1px solid #eee;">ユーザー通報</td><td style="padding: 10px; border-bottom: 1px solid #eee;">不適切なメッセージ</td><td style="padding: 10px; border-bottom: 1px solid #eee;">警告済み</td></tr></tbody>
+          <tbody id="historyTableBody"></tbody>
         </table>
+        <div class="history-empty" id="historyEmpty" hidden>通報・違反履歴はありません。</div>
       </div>
     </div>
 
@@ -413,6 +426,47 @@
 </div>
 <script>
   var POLICY_DEFAULT_FEE = 5000;
+
+  // Replace with API data keyed by reporter_user_id / absent_user_id when connected.
+  // Records are explicitly returned history only; being reported does not itself imply a violation.
+  var relatedUserHistory = {
+    reporter: [
+      { datetime: '2026/10/31 19:30', type: 'ユーザー通報', reason: '不適切なメッセージを送られた', result: '警告済み' },
+      { datetime: '2026/10/28 13:15', type: 'NGワード検知', reason: '不適切なメッセージ', result: '警告済み' }
+    ],
+    absent: [
+      { datetime: '2026/11/04 15:00', type: '無断欠席報告', reason: '予約 BK-010', result: 'キャンセル料確定：¥3,000' },
+      { datetime: '2026/11/02 10:00', type: 'NGワード検知', reason: '不適切なメッセージ', result: '警告済み' }
+    ]
+  };
+  var historyDescriptions = {
+    reporter: '報告者の過去の通報・違反履歴を表示',
+    absent: '未来店ユーザーの過去の通報・違反履歴を表示'
+  };
+
+  function renderRelatedUserHistory(user) {
+    var records = (relatedUserHistory[user] || []).slice().sort(function(a, b) {
+      return b.datetime.localeCompare(a.datetime);
+    });
+    document.getElementById('historyDescription').textContent = historyDescriptions[user];
+    document.querySelectorAll('[data-history-user]').forEach(function(tab) {
+      tab.setAttribute('aria-selected', String(tab.dataset.historyUser === user));
+    });
+    var body = document.getElementById('historyTableBody');
+    body.innerHTML = records.map(function(record) {
+      return '<tr><td style="padding: 10px; border-bottom: 1px solid #eee;">' + record.datetime +
+        '</td><td style="padding: 10px; border-bottom: 1px solid #eee;">' + record.type +
+        '</td><td style="padding: 10px; border-bottom: 1px solid #eee;">' + record.reason +
+        '</td><td style="padding: 10px; border-bottom: 1px solid #eee;">' + record.result + '</td></tr>';
+    }).join('');
+    document.getElementById('historyTable').hidden = records.length === 0;
+    document.getElementById('historyEmpty').hidden = records.length !== 0;
+  }
+
+  document.querySelectorAll('[data-history-user]').forEach(function(tab) {
+    tab.addEventListener('click', function() { renderRelatedUserHistory(tab.dataset.historyUser); });
+  });
+  renderRelatedUserHistory('absent');
 
   function openAdminModal(id) { document.getElementById(id).classList.add('open'); }
   function closeAdminModal(id) { document.getElementById(id).classList.remove('open'); }
