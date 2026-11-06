@@ -269,13 +269,14 @@
     .account-status-grid dt { color: #766d61; }
     .account-status-grid dd { margin: 0; color: #332d25; font-weight: 600; }
     .account-history-head { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #eee7de; padding-top: 15px; color: #332d25; font-size: 13px; font-weight: 700; }
-    .account-history-link { color: #8d7956; font-size: 12px; font-weight: 600; text-decoration: none; }
+    .account-history-link { color: #8d7956; font-size: 12px; font-weight: 600; text-decoration: none; border: 0; background: transparent; cursor: pointer; }
     .account-history-list { margin-top: 10px; }
     .account-history-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #eee7de; border-radius: 4px; background: #faf8f4; padding: 11px 12px; color: #4a4238; font-size: 13px; text-decoration: none; }
     .account-history-item + .account-history-item { margin-top: 8px; }
     .account-history-item:hover { background: #f5f0e8; border-color: #d7c7ae; }
     .account-history-item span { display: flex; gap: 28px; }
     .account-history-arrow { color: #8d7956; font-size: 20px; line-height: 1; }
+    .history-drawer-backdrop { display:none; position:fixed; inset:0; z-index:1200; background:rgba(34,29,24,.28); }.history-drawer-backdrop.show { display:block; }.history-drawer { position:absolute; top:0; right:0; width:min(820px, 94vw); height:100%; background:#fff; box-shadow:-12px 0 32px rgba(0,0,0,.2); display:flex; flex-direction:column; }.history-drawer-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:20px 24px 16px; border-bottom:1px solid #e5ddd2; }.history-drawer-title { font-size:18px; font-weight:700; color:#332d25; }.history-drawer-meta { margin-top:6px; color:#766d61; font-size:12px; }.history-drawer-close { border:0; background:transparent; color:#776d61; cursor:pointer; font-size:26px; line-height:1; }.history-drawer-body { flex:1; min-height:0; overflow:auto; padding:18px 24px; }.history-drawer-table { width:100%; border-collapse:collapse; font-size:12px; min-width:690px; }.history-drawer-table th,.history-drawer-table td { padding:10px; border-bottom:1px solid #e9e2d9; text-align:left; vertical-align:top; }.history-drawer-table th { position:sticky; top:0; background:#faf8f4; color:#6e6558; font-weight:700; white-space:nowrap; }.history-content { max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.history-related-link { color:#8d7956; font-weight:600; text-decoration:none; white-space:nowrap; }.history-drawer-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 24px; border-top:1px solid #e5ddd2; font-size:12px; color:#766d61; }.history-page-controls { display:flex; align-items:center; gap:8px; }.history-page-controls button,.history-page-controls select { border:1px solid #ddd5c9; border-radius:3px; background:#fff; color:#5f503b; padding:6px 8px; font-size:12px; }.history-page-controls button:disabled { opacity:.45; cursor:default; }.history-drawer-empty { padding:44px 16px; text-align:center; color:#857a6c; font-size:13px; }
     .compact-photo-panel { min-width: 0; }.compact-photo-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; color: #5b5145; font-size: 12px; font-weight: 700; }.profile-photo-count { color: #8d7956; font-size: 11px; font-weight: 600; }
     .compact-photo-view { display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; gap: 4px; }.compact-photo-visual { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 5px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }.compact-photo-visual.photo-1 { background: linear-gradient(145deg, #c8b497, #786758); }.compact-photo-visual.photo-2 { background: linear-gradient(145deg, #94a9a5, #4d696d); }.compact-photo-visual.photo-3 { background: linear-gradient(145deg, #c8a2a2, #7e5e68); }.compact-photo-visual.empty { background: #fbfaf9; color: #aaa095; border: 1px dashed #d9d0c5; cursor: default; }
     .photo-carousel-arrow { width: 24px; height: 30px; border: 1px solid #ddd5c9; border-radius: 3px; background: #fff; color: #806f57; cursor: pointer; }.photo-carousel-arrow:disabled, .compact-photo-actions button:disabled { opacity: .4; cursor: default; }
@@ -417,11 +418,8 @@
           <dt>対応理由</dt><dd id="accountStatusReason">現在、対応はありません</dd>
           <dt id="accountStatusPeriodLabel">制限期間</dt><dd id="accountStatusPeriod">—</dd>
         </dl>
-        <div class="account-history-head"><span>対応履歴</span><a class="account-history-link" href="#">過去の対応を確認</a></div>
-        <div id="accountHistoryList" class="account-history-list">
-          <a class="account-history-item" href="wireframe_SCR223_ngword_detect_detail.html"><span><span>2026/10/08 15:20</span><span>利用制限済み</span></span><strong class="account-history-arrow">›</strong></a>
-          <a class="account-history-item" href="wireframe_SCR221_report_detail.html"><span><span>2026/09/18 11:05</span><span>警告済み</span></span><strong class="account-history-arrow">›</strong></a>
-        </div>
+        <div class="account-history-head"><span>対応履歴</span><button type="button" id="openHistoryDrawer" class="account-history-link">過去の対応を確認</button></div>
+        <div id="accountHistoryList" class="account-history-list"></div>
       </div>
     </section>
 
@@ -631,6 +629,7 @@
 <div id="accountSuspendModal" class="admin-modal" onclick="closeAdminModal('accountSuspendModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">アカウント停止</div><div class="admin-modal-desc">対象ユーザー: <span id="suspensionUser">U-0001 / たろう</span></div><div id="bookingSuspensionContent" hidden><div class="modal-warning">このユーザーには確定済みの予約があります。アカウント停止によって予約当日の来店に影響する可能性があります。予約状況をご確認ください。</div><div id="confirmedBookingList"></div><label class="modal-radio"><input type="radio" name="suspensionTiming" value="after" checked> <span>予約後から停止<br><small>現在の予約を保持します。停止予定日時は予約状況を確認して設定してください。</small></span></label><label class="modal-radio"><input type="radio" name="suspensionTiming" value="immediate"> <span>即時停止<br><small>予約は自動でキャンセルされず、キャンセル料も自動請求されません。</small></span></label><div id="scheduledSuspendAt" class="admin-modal-field"><label for="scheduledSuspensionAt">停止予定日時 <span class="badge-label">必須</span></label><input id="scheduledSuspensionAt" type="datetime-local"></div></div><div id="immediateSuspendWarning" class="modal-warning" hidden>予約関連の確認・対応が必要です。アカウント停止だけでは予約を自動キャンセルしません。</div><div class="admin-modal-field"><label for="suspensionReason">対応理由 <span class="badge-label">必須</span></label><select id="suspensionReason"><option value="">選択してください</option><option>重大な利用規約違反</option><option>迷惑行為</option><option>安全上の懸念</option></select></div><div class="admin-modal-field"><label for="suspensionPreview">ユーザーへの通知内容 <span class="badge-label">必須</span></label><textarea id="suspensionPreview" class="form-textarea"></textarea></div><div id="suspensionError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('accountSuspendModal')">キャンセル</button><button type="button" class="admin-action-btn danger" data-submit-action onclick="submitUserManagementAction('suspend')">停止する</button></div></div></div>
 <div id="accountRestoreModal" class="admin-modal" onclick="closeAdminModal('accountRestoreModal')"><div class="admin-modal-box" onclick="event.stopPropagation()"><div class="admin-modal-title">利用再開</div><div class="admin-modal-desc">ユーザーID / ニックネーム: <span id="restoreUser">U-0001 / たろう</span><br>現在の状態: <span id="restoreStatus">停止中</span></div><div class="modal-warning">利用再開しても、利用制限・未払いによる制限は自動で解除されません。サブスクリプション、マッチング、チャット履歴も変更しません。</div><div id="restoreError" class="admin-modal-error"></div><div class="admin-modal-actions"><button type="button" class="btn btn-outline" onclick="closeAdminModal('accountRestoreModal')">キャンセル</button><button type="button" class="btn btn-primary" data-submit-action onclick="submitUserManagementAction('restore')">利用再開する</button></div></div></div>
 <div id="ekycManualReviewModal" class="admin-modal" onclick="closeAdminModal('ekycManualReviewModal')"><div class="admin-modal-box manual-review-modal-box" onclick="event.stopPropagation()"><div class="manual-review-title-row"><div class="admin-modal-title">eKYC 例外判定</div><div class="manual-review-status">要確認</div></div><div class="admin-modal-desc">ユーザーID: <span id="ekycManualUserId">U-0001</span><br>eKYC Case ID: E-2026-0001<br>現在の状態: 要確認</div><section class="manual-review-section"><div class="admin-modal-field"><label for="ekycDecision">判定結果 <span class="badge-label">必須</span></label><select id="ekycDecision"><option value="">選択してください</option><option value="承認済み">承認</option><option value="再提出依頼">再提出を依頼</option><option value="NG">否認</option></select></div><div class="admin-modal-field"><label for="ekycManualReason">判定理由 <span class="badge-label">必須</span></label><textarea id="ekycManualReason" placeholder="判定理由を入力"></textarea></div></section><div id="ekycDecisionError" class="admin-modal-error"></div><div class="manual-review-footer"><button type="button" class="btn btn-outline" onclick="closeAdminModal('ekycManualReviewModal')">キャンセル</button><button type="button" class="btn btn-primary" onclick="confirmManualEkyc()">確定する</button></div></div></div>
+<div id="historyDrawerBackdrop" class="history-drawer-backdrop" aria-hidden="true"><aside class="history-drawer" role="dialog" aria-modal="true" aria-labelledby="historyDrawerTitle"><div class="history-drawer-head"><div><div id="historyDrawerTitle" class="history-drawer-title">対応履歴一覧</div><div id="historyDrawerMeta" class="history-drawer-meta"></div></div><button id="closeHistoryDrawer" type="button" class="history-drawer-close" aria-label="閉じる">×</button></div><div class="history-drawer-body"><div id="historyDrawerContent"></div></div></aside></div>
 
 <script>
   document.querySelectorAll('.profile-sections .section-title-fixed').forEach(title => {
@@ -811,6 +810,10 @@
   ];
   const notificationEditor = {};
   const actionReasonLabels = { warning: '警告済み', restriction: '利用制限', unrestrict: '利用制限を早期解除', suspend: 'アカウント停止', suspendScheduled: 'アカウント停止を予約', restore: '利用再開', photoDelete: 'プロフィール写真を削除' };
+  const existingHistoryRecords = [
+    { sortAt: '2026-10-08T15:20', displayAt: '2026/10/08 15:20', type: '利用制限', content: 'NGワード検知・繰り返しの不適切な発言', admin: 'システム', related: { label: '詳細を見る', href: 'wireframe_SCR223_ngword_detect_detail.html' } },
+    { sortAt: '2026-09-18T11:05', displayAt: '2026/09/18 11:05', type: '警告', content: '不適切なメッセージに関する通報を確認', admin: 'ADMIN-001', related: { label: '詳細を見る', href: 'wireframe_SCR221_report_detail.html?record=RP-023', reportId: 'RP-023' } }
+  ];
   const toJst = value => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(value)).replace(/\//g, '/');
   const inputToJstLabel = value => value ? value.replace('T', ' ') : '—';
   const nowInput = () => { const p = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).reduce((o, x) => (o[x.type] = x.value, o), {}); return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`; };
@@ -826,16 +829,31 @@
     userManagementState.history.unshift({ user_id: `U-${requestedUserId.padStart(4, '0')}`, action_type: actionType, notification_reason_code: notification?.reasonCode || null, notification_reason_label: reason || null, notification_content_snapshot: notification?.content || null, action_start_at: restriction?.startAt || null, action_end_at: restriction?.endAt || null, acted_at: new Date().toISOString(), acted_by_admin_id: 'ADMIN-001', source: 'USER_MANAGEMENT', source_case_id: null, previous_account_status: before, new_account_status: after, in_app_notification_status: notification ? 'QUEUED' : null, email_delivery_status: notification ? 'QUEUED' : null });
   }
   function saveManagementState() { localStorage.setItem(userManagementStorageKey, JSON.stringify(userManagementState)); }
-  function renderManagementHistory() {
-    const historyList = document.getElementById('accountHistoryList');
-    historyList.querySelectorAll('[data-user-management-history]').forEach(item => item.remove());
-    userManagementState.history.forEach(item => {
-      const row = document.createElement('div'); row.className = 'account-history-item'; row.dataset.userManagementHistory = 'true';
-      const text = document.createElement('span'); const date = document.createElement('span'); const label = document.createElement('span');
-      date.textContent = toJst(item.acted_at); label.textContent = `${actionReasonLabels[item.action_type]}（${item.notification_reason_label || item.reason || '—'}）`;
-      text.append(date, label); row.append(text); historyList.prepend(row);
-    });
+  function getAllManagementHistory() {
+    const actions = userManagementState.history.map(item => ({ sortAt: item.acted_at, displayAt: toJst(item.acted_at), type: actionReasonLabels[item.action_type] || item.action_type, content: item.notification_reason_label || item.reason || item.notification_content_snapshot || '管理者操作', admin: item.acted_by_admin_id || 'システム', related: null }));
+    return [...actions, ...existingHistoryRecords].sort((a, b) => String(b.sortAt).localeCompare(String(a.sortAt)));
   }
+  function renderManagementHistory() {
+    const historyList = document.getElementById('accountHistoryList'); const records = getAllManagementHistory(); historyList.replaceChildren();
+    if (!records.length) { historyList.innerHTML = '<div class="history-drawer-empty">対応履歴はありません。</div>'; return; }
+    records.slice(0, 5).forEach(record => {
+      const row = document.createElement('div'); row.className = 'account-history-item';
+      const text = document.createElement('span'); const date = document.createElement('span'); const label = document.createElement('span');
+      date.textContent = record.displayAt; label.textContent = `${record.type}：${record.content}`; text.append(date, label); row.append(text);
+      if (record.related) { const link = document.createElement('a'); link.href = record.related.href; link.className = 'account-history-link'; link.textContent = record.related.label; row.append(link); } else { const dash = document.createElement('span'); dash.textContent = '—'; row.append(dash); }
+      historyList.append(row);
+    });
+    renderHistoryDrawer();
+  }
+  function renderHistoryDrawer() {
+    const records = getAllManagementHistory(); const total = records.length;
+    document.getElementById('historyDrawerMeta').textContent = `ユーザーID: U-${requestedUserId.padStart(4, '0')} / ${currentUserNickname}　全${total}件`;
+    const content = document.getElementById('historyDrawerContent');
+    if (!total) content.innerHTML = '<div class="history-drawer-empty">対応履歴はありません。</div>';
+    else content.innerHTML = '<table class="history-drawer-table"><thead><tr><th>対応日時</th><th>対応種別</th><th>対応内容</th><th>関連情報</th></tr></thead><tbody>' + records.map(record => `<tr><td>${record.displayAt}</td><td>${record.type}</td><td><div class="history-content" title="${record.content}">${record.content}</div></td><td>${record.related ? `<a class="history-related-link" href="${record.related.href}" target="_blank" rel="noopener" title="${record.related.reportId || ''}">${record.related.label} ↗</a>` : '—'}</td></tr>`).join('') + '</tbody></table>';
+  }
+  function openHistoryDrawer() { renderHistoryDrawer(); const drawer = document.getElementById('historyDrawerBackdrop'); drawer.classList.add('show'); drawer.setAttribute('aria-hidden', 'false'); }
+  function closeHistoryDrawer() { const drawer = document.getElementById('historyDrawerBackdrop'); drawer.classList.remove('show'); drawer.setAttribute('aria-hidden', 'true'); }
   function renderManagement() {
     const current = actualAccountStatus(); const restriction = activeRestriction();
     heroAccountStatus.textContent = `● ${current.status}`; heroAccountStatus.className = `admin-chip ${current.className}`;
@@ -960,6 +978,9 @@
     document.getElementById('immediateSuspendWarning').hidden = !immediate;
     document.getElementById('scheduledSuspendAt').hidden = immediate;
   }));
+  document.getElementById('openHistoryDrawer').addEventListener('click', openHistoryDrawer);
+  document.getElementById('closeHistoryDrawer').addEventListener('click', closeHistoryDrawer);
+  document.getElementById('historyDrawerBackdrop').addEventListener('click', event => { if (event.target === event.currentTarget) closeHistoryDrawer(); });
   renderManagement();
 
   const photoCount = document.getElementById('profilePhotoCount');
