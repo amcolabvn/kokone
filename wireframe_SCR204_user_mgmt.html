@@ -484,7 +484,6 @@
       if (status === '正常') {
         try {
           const state = JSON.parse(localStorage.getItem(`scr204UserManagement_${userId}`) || 'null');
-          if (state?.warnings?.length) statusCell.insertAdjacentHTML('beforeend', '<span class="account-badge warning">警告中</span>');
         } catch (error) { /* keep the normal status badge */ }
       }
     });
