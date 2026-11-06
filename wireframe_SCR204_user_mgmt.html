@@ -412,6 +412,19 @@
             <td><a href="wireframe_SCR204_user_detail.html?id=003" class="user-detail-link">詳細</a></td>
           </tr>
           <tr>
+            <td>004</td>
+            <td><div class="user-name"><span class="user-avatar avatar-blue">あ</span>アーカイブユーザー</div></td>
+            <td>女</td>
+            <td>35歳</td>
+            <td>東京都</td>
+            <td><span class="plan-badge premium">Premium</span></td>
+            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td>6</td>
+            <td><span class="account-badge withdrawn">● 退会済み</span></td>
+            <td>2026/02/14</td>
+            <td><a href="wireframe_SCR204_user_detail.html?id=004" class="user-detail-link">詳細</a></td>
+          </tr>
+          <tr>
             <td>005</td>
             <td><div class="user-name"><span class="user-avatar">さ</span>さくら</div></td>
             <td>女</td>
@@ -420,16 +433,29 @@
             <td><span class="plan-badge premium">Premium</span></td>
             <td><span class="identity-badge review">⚠ 要確認</span></td>
             <td>15</td>
-            <td><span class="account-badge normal">● 正常</span><span class="account-badge warning">警告中</span></td>
+            <td><span class="account-badge normal">● 正常</span></td>
             <td>2026/03/12</td>
             <td><a href="wireframe_SCR204_user_detail.html?id=005" class="user-detail-link">詳細</a></td>
+          </tr>
+          <tr>
+            <td>006</td>
+            <td><div class="user-name"><span class="user-avatar avatar-brown">け</span>けん</div></td>
+            <td>男</td>
+            <td>36歳</td>
+            <td>東京都</td>
+            <td><span class="plan-badge premium">Premium</span></td>
+            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td>9</td>
+            <td><span class="account-badge normal">● 正常</span></td>
+            <td>2026/03/16</td>
+            <td><a href="wireframe_SCR204_user_detail.html?id=006" class="user-detail-link">詳細</a></td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="user-list-footer">
-      <div class="summary-line">1〜20件 / 全 1,234 件</div>
+      <div class="summary-line">1〜20件 / 全 1,236 件</div>
       <div class="pagination">
       <a href="#" class="pagination-item">‹</a>
       <a href="#" class="pagination-item active">1</a>
@@ -443,7 +469,7 @@
 </div>
 <script>
   (function syncUserManagementStatus() {
-    const defaults = { '001': '正常', '002': '制限中', '003': '停止中', '005': '正常' };
+    const defaults = { '001': '正常', '002': '制限中', '003': '停止中', '005': '正常', '006': '正常' };
     const classes = { '正常': 'normal', '制限中': 'restricted', '停止中': 'suspended', '退会済み': 'withdrawn' };
     document.querySelectorAll('.table tbody tr').forEach(row => {
       const userId = row.cells[0]?.textContent.trim();
