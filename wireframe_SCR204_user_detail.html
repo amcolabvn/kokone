@@ -899,12 +899,16 @@
     const latestAction = userManagementState.history[0];
     document.getElementById('accountStatusTime').textContent = current.status === '停止中' ? (latestAction ? toJst(latestAction.acted_at) : accountStatus.time) : userManagementState.scheduledSuspension ? inputToJstLabel(userManagementState.scheduledSuspension.at) : restriction ? inputToJstLabel(restriction.startAt) : '—';
     document.getElementById('accountStatusReason').textContent = current.status === '停止中' ? (latestAction?.notification_reason_label || latestAction?.reason || accountStatus.reason) : userManagementState.scheduledSuspension ? `停止予定：${userManagementState.scheduledSuspension.reason}` : restriction ? (restriction === userManagementState.paymentRestriction ? 'キャンセル料未払い' : restriction.reason) : '現在、対応はありません';
-    document.getElementById('accountStatusPeriod').textContent = restriction ? currentRestrictionText(restriction) : userManagementState.scheduledSuspension ? '予約済み停止（未発効）' : '—';
-    document.getElementById('accountStatusPeriodLabel').textContent = current.status === '停止中' ? '停止日時' : userManagementState.scheduledSuspension ? '現在の状態' : '制限期間';
+    document.getElementById('accountStatusPeriod').textContent = userManagementState.scheduledSuspension ? inputToJstLabel(userManagementState.scheduledSuspension.at) : restriction ? currentRestrictionText(restriction) : '—';
+    document.getElementById('accountStatusPeriodLabel').textContent = current.status === '停止中' ? '停止日時' : userManagementState.scheduledSuspension ? '停止予定日時' : '制限期間';
     document.getElementById('accountStatusPeriodLabel').hidden = false;
     document.getElementById('accountStatusPeriod').hidden = false;
     const scheduleInfo = document.getElementById('scheduledSuspensionInfo'); const pendingSchedule = isPendingScheduledSuspension();
-    scheduleInfo.classList.toggle('show', pendingSchedule); if (pendingSchedule) document.getElementById('scheduledSuspensionDate').textContent = inputToJstLabel(userManagementState.scheduledSuspension.at);
+    const scheduleValue = document.getElementById('accountStatusPeriod'); const editScheduleButton = document.getElementById('editScheduledSuspension'); const cancelScheduleButton = document.getElementById('cancelScheduledSuspension');
+    scheduleInfo.classList.remove('show');
+    if (pendingSchedule) {
+      scheduleValue.replaceChildren(document.createTextNode(`${inputToJstLabel(userManagementState.scheduledSuspension.at)}　`), editScheduleButton, cancelScheduleButton);
+    }
     if (current.status === '正常') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn warning" onclick="openUserManagementModal(\'warning\')">警告</button><button type="button" class="admin-action-btn" onclick="openUserManagementModal(\'restriction\')">利用制限</button><button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button>';
     else if (current.status === '制限中' && userManagementState.adminRestriction) adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn" onclick="openUserManagementModal(\'unrestrict\')">利用制限を早期解除</button><button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button>';
     else if (current.status === '制限中') adminAccountActions.innerHTML = '<button type="button" class="admin-action-btn danger" onclick="openUserManagementModal(\'suspend\')">アカウント停止</button><span class="admin-action-note">キャンセル料未払いによる制限は、ここでは変更できません。</span>';
