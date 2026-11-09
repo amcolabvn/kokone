@@ -745,24 +745,6 @@
 </script>
 <script>
 (function(){
-  /* US-34 wireframe supplement: the policy snapshot provides a read-only cap. */
-  function applyChargeLimit(){
-    const modal=document.querySelector('.booking-noshow-modal'); if(!modal) return;
-    const fee=modal.querySelector('#noshowRestaurantFee');
-    if(fee&&!modal.querySelector('#noshowChargeLimit')){
-      const label=document.createElement('label');label.htmlFor='noshowChargeLimit';label.textContent='請求上限額（円）';
-      const input=document.createElement('input');input.id='noshowChargeLimit';input.className='amount-input';input.type='number';input.value='10000';input.readOnly=true;
-      fee.insertAdjacentElement('afterend',label);label.insertAdjacentElement('afterend',input);
-      const warning=modal.querySelector('#noshowWarning');const confirm=modal.querySelector('#noshowConfirm');
-      if(confirm&&!confirm.dataset.limitBound){confirm.dataset.limitBound='true';confirm.addEventListener('click',function(event){const a=Number(modal.querySelector('#noshowUser1Fee')?.value),b=Number(modal.querySelector('#noshowUser2Fee')?.value),limit=Number(input.value);if(Number.isInteger(a)&&Number.isInteger(b)&&a+b>limit){event.stopImmediatePropagation();event.preventDefault();warning.textContent='負担額合計は請求上限額を超えることはできません。';warning.style.display='block';}},true);}
-    }
-    const summary=modal.querySelector('.booking-noshow-summary');if(summary&&!summary.querySelector('[data-charge-limit]')){const line=document.createElement('div');line.dataset.chargeLimit='true';line.textContent='請求上限額：10,000円';summary.children[1]?.insertAdjacentElement('afterend',line);}
-  }
-  new MutationObserver(applyChargeLimit).observe(document.body,{childList:true,subtree:true});
-}());
-</script>
-<script>
-(function(){
   const id=new URLSearchParams(location.search).get('id')||location.hash.replace('#',''); if(id!=='BK-003') return;
   const root=document.querySelector('.main-content .content-wrapper'); if(!root) return;
   const confirmed=[...root.querySelectorAll('.booking-detail-section')].find(s=>s.querySelector('.section-title')?.textContent.includes('予約確定情報')); if(!confirmed) return;

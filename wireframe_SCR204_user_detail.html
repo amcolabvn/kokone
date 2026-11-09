@@ -279,7 +279,7 @@
     .scheduled-suspension-info { display:none; align-items:center; gap:10px; flex-wrap:wrap; margin:0 0 16px; padding:11px 12px; border:1px solid #e5ddd2; background:#faf8f4; color:#4b4237; font-size:13px; }.scheduled-suspension-info.show { display:flex; }.scheduled-suspension-info strong { color:#766d61; }.scheduled-suspension-action { border:0; background:transparent; color:#8d7956; font-weight:700; font-size:12px; cursor:pointer; padding:2px 4px; text-decoration:underline; }.schedule-notice { display:none; margin:0 0 16px; padding:10px 12px; border:1px solid #b9ddc4; background:#eff9f1; color:#267344; font-size:12px; }.schedule-notice.show { display:block; }
     .history-drawer-backdrop { display:none; position:fixed; inset:0; z-index:1200; background:rgba(34,29,24,.28); }.history-drawer-backdrop.show { display:block; }.history-drawer { position:absolute; top:0; right:0; width:min(820px, 94vw); height:100%; background:#fff; box-shadow:-12px 0 32px rgba(0,0,0,.2); display:flex; flex-direction:column; }.history-drawer-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:20px 24px 16px; border-bottom:1px solid #e5ddd2; }.history-drawer-title { font-size:18px; font-weight:700; color:#332d25; }.history-drawer-meta { margin-top:6px; color:#766d61; font-size:12px; }.history-drawer-close { border:0; background:transparent; color:#776d61; cursor:pointer; font-size:26px; line-height:1; }.history-drawer-body { flex:1; min-height:0; overflow:auto; padding:18px 24px; }.history-drawer-table { width:100%; border-collapse:collapse; font-size:12px; min-width:690px; }.history-drawer-table th,.history-drawer-table td { padding:10px; border-bottom:1px solid #e9e2d9; text-align:left; vertical-align:top; }.history-drawer-table th { position:sticky; top:0; background:#faf8f4; color:#6e6558; font-weight:700; white-space:nowrap; }.history-content { max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.history-related-link { color:#8d7956; font-weight:600; text-decoration:none; white-space:nowrap; }.history-drawer-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 24px; border-top:1px solid #e5ddd2; font-size:12px; color:#766d61; }.history-page-controls { display:flex; align-items:center; gap:8px; }.history-page-controls button,.history-page-controls select { border:1px solid #ddd5c9; border-radius:3px; background:#fff; color:#5f503b; padding:6px 8px; font-size:12px; }.history-page-controls button:disabled { opacity:.45; cursor:default; }.history-drawer-empty { padding:44px 16px; text-align:center; color:#857a6c; font-size:13px; }
     .compact-photo-panel { min-width: 0; }.compact-photo-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; color: #5b5145; font-size: 12px; font-weight: 700; }.profile-photo-count { color: #8d7956; font-size: 11px; font-weight: 600; }
-    .compact-photo-view { display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; gap: 4px; }.compact-photo-visual { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 5px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }.compact-photo-visual.photo-1 { background: linear-gradient(145deg, #c8b497, #786758); }.compact-photo-visual.photo-2 { background: linear-gradient(145deg, #94a9a5, #4d696d); }.compact-photo-visual.photo-3 { background: linear-gradient(145deg, #c8a2a2, #7e5e68); }.compact-photo-visual.empty { background: #fbfaf9; color: #aaa095; border: 1px dashed #d9d0c5; cursor: default; }
+    .compact-photo-view { display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; gap: 4px; }.compact-photo-visual { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 5px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }.compact-photo-visual.photo-1 { background: linear-gradient(145deg, #c8b497, #786758); }.compact-photo-visual.photo-2 { background: linear-gradient(145deg, #94a9a5, #4d696d); }.compact-photo-visual.photo-3 { background: linear-gradient(145deg, #c8a2a2, #7e5e68); }.compact-photo-visual.empty { background: radial-gradient(circle at 50% 34%, #b7b7b7 0 14%, transparent 15%), radial-gradient(ellipse at 50% 88%, #b7b7b7 0 34%, transparent 35%), #eeeeee; color: #737373; border: 1px solid #d5d5d5; cursor: default; font-size: 11px; padding-top: 56%; align-items: flex-end; padding-bottom: 12px; }
     .photo-carousel-arrow { width: 24px; height: 30px; border: 1px solid #ddd5c9; border-radius: 3px; background: #fff; color: #806f57; cursor: pointer; }.photo-carousel-arrow:disabled, .compact-photo-actions button:disabled { opacity: .4; cursor: default; }
     .compact-photo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 7px; }.compact-photo-actions button { border: 1px solid #ddd5c9; border-radius: 3px; background: #fff; color: #6f614f; padding: 6px 2px; font-size: 11px; cursor: pointer; }.compact-photo-actions .delete-photo { color: #c53d3d; border-color: #efc9c9; }
     .photo-modal { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,.45); }
@@ -1043,11 +1043,11 @@
     const photo = profilePhotos[currentPhotoIndex];
     const hasPhoto = Boolean(photo);
     photoCount.textContent = `${profilePhotos.length}/7枚`;
-    compactPhotoVisual.textContent = hasPhoto ? photo.label : '未登録';
+    compactPhotoVisual.textContent = hasPhoto ? photo.label : '写真がありません';
     compactPhotoVisual.className = `compact-photo-visual ${hasPhoto ? photo.className : 'empty'}`;
     compactPhotoVisual.disabled = !hasPhoto;
     viewPhotoButton.disabled = !hasPhoto;
-    deletePhotoButton.disabled = profilePhotos.length <= 1 || accountStatus.status === '退会済み';
+    deletePhotoButton.disabled = !hasPhoto || accountStatus.status === '退会済み';
     photoPrevButton.disabled = profilePhotos.length < 2;
     photoNextButton.disabled = profilePhotos.length < 2;
   }
@@ -1061,7 +1061,7 @@
       document.getElementById('profilePhotoMeta').innerHTML = `<dt>ぼかし設定</dt><dd>${photo.blur}</dd><dt>公開リクエスト対象</dt><dd>${photo.request}</dd>`;
       photoModal.classList.add('show');
     }
-    if (deleteButton && profilePhotos.length > 1) openDeletePhotoModal();
+    if (deleteButton && profilePhotos.length > 0) openDeletePhotoModal();
     if (event.target.closest('[data-photo-prev]') && profilePhotos.length > 1) {
       currentPhotoIndex = (currentPhotoIndex - 1 + profilePhotos.length) % profilePhotos.length;
       renderProfilePhoto();
@@ -1074,7 +1074,7 @@
   });
   function closePhotoModal() { photoModal.classList.remove('show'); }
   function openDeletePhotoModal() { const target = document.getElementById('deletePhotoPreview'); target.innerHTML = ''; target.append(compactPhotoVisual.cloneNode(true)); openAdminModal('deletePhotoModal'); }
-  function confirmDeletePhoto() { if (profilePhotos.length <= 1) return; profilePhotos.splice(currentPhotoIndex, 1); currentPhotoIndex = Math.min(currentPhotoIndex, profilePhotos.length - 1); renderProfilePhoto(); closeAdminModal('deletePhotoModal'); addManagementHistory('photoDelete', 'プロフィール写真を削除（Web通知送信・公開リクエスト／相互共有から同期削除）', actualAccountStatus().status, actualAccountStatus().status, null, { content: 'プロフィール写真が削除されました。' }); saveManagementState(); renderManagementHistory(); }
+  function confirmDeletePhoto() { if (!profilePhotos.length) return; profilePhotos.splice(currentPhotoIndex, 1); currentPhotoIndex = profilePhotos.length ? Math.min(currentPhotoIndex, profilePhotos.length - 1) : 0; renderProfilePhoto(); closeAdminModal('deletePhotoModal'); addManagementHistory('photoDelete', 'プロフィール写真を削除（Web通知送信・公開リクエスト／相互共有から同期削除）', actualAccountStatus().status, actualAccountStatus().status, null, { content: 'プロフィール写真が削除されました。' }); saveManagementState(); renderManagementHistory(); }
   renderProfilePhoto();
 </script>
 
