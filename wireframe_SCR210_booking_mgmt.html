@@ -386,7 +386,6 @@
   <div class="sidebar-item" onclick="location.href='wireframe_SCR230_revenue.html'">収益管理</div>
 
   <div class="sidebar-title">システム</div>
-  <div class="sidebar-item" onclick="location.href='wireframe_SCR900_settings.html'">システム設定</div>
 </div>
 
 <div class="main-content">
@@ -595,7 +594,7 @@
     {id:'BK-005',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/10/28 19:00',shop:'中目黒 こまち',status:'キャンセル',visit:'対象外',change:'—',c:['中目黒 こまち','中目黒 いろは','中目黒 山灯り'],confirmed:{shop:'中目黒 こまち',date:'2026/10/28 19:00'},cancel:{user:'なお',date:'2026/10/27 10:00',fee:'4,000円',payment:'支払済み'}},
     {id:'BK-006',match:'MT-003',u1:['じゅん','U-0088'],u2:['えり','U-0112'],date:'2026/11/10 18:00',shop:'中目黒 山灯り',status:'キャンセル',visit:'対象外',change:'—',c:['中目黒 こまち','中目黒 いろは','中目黒 山灯り'],confirmed:{shop:'中目黒 山灯り',date:'2026/11/10 18:00'},cancel:{user:'えり',date:'2026/11/09 09:00',fee:'0円',payment:'対象外'}},
     {id:'BK-007',match:'MT-001',u1:['まい','U-0172'],u2:['りょう','U-0199'],date:'2026/03/27 19:00',shop:'銀座 つきじ治作',status:'キャンセル',visit:'対象外',change:'—',c:['銀座 つきじ治作','銀座 和食みやび','銀座 旬彩堂'],confirmed:{shop:'銀座 つきじ治作',date:'2026/03/27 19:00'},cancel:{user:'りょう',date:'2026/03/26 12:00',fee:'4,000円',payment:'未払い'}},
-    {id:'BK-008',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/21 19:00',shop:'恵比寿 銀の皿',status:'予約確定',visit:'不来店報告あり',change:'なし',c:['恵比寿 銀の皿','恵比寿 つばき','恵比寿 和食店'],confirmed:{shop:'恵比寿 銀の皿',date:'2026/03/21 19:00'},incident:{reporter:'さとみ',reported:'けいすけ',time:'2026/03/21 20:15',case:'US-33'}},
+    {id:'BK-008',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/20 19:00',shop:'恵比寿 銀の皿',status:'予約確定',visit:'不来店報告あり',change:'なし',c:['恵比寿 銀の皿','恵比寿 つばき','恵比寿 和食店'],confirmed:{shop:'恵比寿 銀の皿',date:'2026/03/20 19:00'},incident:{reporter:'さとみ',reported:'けいすけ',time:'2026/03/21 14:00',case:'US-33'}},
     {id:'BK-009',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/03/22 19:00',shop:'中目黒 こまち',status:'予約確定',visit:'両者不来店連絡あり',change:'なし',c:['中目黒 こまち','中目黒 いろは','中目黒 山灯り'],confirmed:{shop:'中目黒 こまち',date:'2026/03/22 19:00'},incident:{reporter:'店舗',reported:'両者',time:'2026/03/22 21:00',case:'US-34'}},
     {id:'BK-010',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/11/07 18:00',shop:'恵比寿 銀の皿',status:'予約確定',visit:'来店前',change:'変更依頼あり',c:['恵比寿 銀の皿','恵比寿 つばき','恵比寿 和食店'],confirmed:{shop:'恵比寿 銀の皿',date:'2026/11/07 18:00'},changeInfo:{current:'2026/11/07 18:00',requested:'2026/11/08 19:00',user:'さとみ',time:'2026/11/07 21:00',result:'対応待ち'}},
     {id:'BK-011',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/10/28 19:00',shop:'中目黒 こまち',status:'予約確定',visit:'来店前',change:'変更失敗（原予約維持）',c:['中目黒 こまち','中目黒 いろは','中目黒 山灯り'],confirmed:{shop:'中目黒 こまち',date:'2026/10/28 19:00'},changeInfo:{current:'2026/10/28 19:00',requested:'2026/10/30 19:00',user:'はるか',time:'2026/10/29 09:00',result:'変更失敗・原予約を維持'}},
@@ -612,6 +611,13 @@
   }
   draw(records);
 })();
+</script>
+<script>
+(function(){
+  /* 12 records with a page size of 20: pagination exposes only page 1. */
+  const refresh=()=>{const body=document.querySelector('#bookingListBody')||document.querySelector('.booking-table tbody');const pagination=document.querySelector('.main-content .content-wrapper .pagination');if(!body||!pagination)return;const total=body.querySelectorAll('tr').length;const value='1〜'+total+'件 / 全'+total+'件';if(pagination.dataset.pageSummary===value)return;pagination.dataset.pageSummary=value;pagination.innerHTML='<span>'+value+'</span><span>20件 / ページ</span>';};
+  refresh(); new MutationObserver(refresh).observe(document.querySelector('.main-content .content-wrapper'),{childList:true,subtree:true});
+}());
 </script>
 </body>
 </html>

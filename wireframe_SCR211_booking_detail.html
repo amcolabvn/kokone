@@ -325,7 +325,6 @@
   <div class="sidebar-item" onclick="location.href='wireframe_SCR230_revenue.html'">収益管理</div>
 
   <div class="sidebar-title">システム</div>
-  <div class="sidebar-item" onclick="location.href='wireframe_SCR900_settings.html'">システム設定</div>
 </div>
 
 <div class="main-content">
@@ -611,11 +610,11 @@
     'BK-001':{id:'BK-001',match:'MT-001',u1:['まい','U-0172'],u2:['りょう','U-0199'],date:'2026/03/27 19:00',people:'2名',payment:'当日相談して決める',status:'予約対応待ち',visit:'対象外',c:stores('MT-001'),logs:[['2026/03/19 11:30','システム','予約対応待ち','双方承認・カード登録を確認']]},
     'BK-002':{id:'BK-002',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/10/28 19:00',people:'2名',payment:'当日相談して決める',status:'予約対応中',visit:'対象外',processing:1,c:stores('MT-006',['予約不可','対応中','未対応']),logs:[['2026/10/28 20:20','管理者','第1候補を試行','満席のため予約不可'],['2026/10/28 20:25','管理者','第2候補を試行','店舗へ確認中']]},
     'BK-003':{id:'BK-003',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/11/07 18:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'来店前',confirmed:{shop:'恵比寿 銀の皿',date:'2026/11/07 18:00',name:'Otona Table / さとみ',number:'—'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/11/07 20:30','管理者','予約確定','店舗から予約受付の回答を受領']]},
-    'BK-004':{id:'BK-004',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/20 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'デート完了',confirmed:{shop:'個室ダイニング和楽',date:'2026/03/20 19:00',name:'Otona Table / さとみ',number:'—'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/03/20 20:30','システム','デート完了','予約日時を経過・報告なし']]},
+    'BK-004':{id:'BK-004',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/20 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'デート完了',confirmed:{shop:'個室ダイニング和楽',date:'2026/03/20 19:00',name:'Otona Table / さとみ',number:'—'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/03/21 10:00','システム','デート完了','予約日時を経過し、キャンセルおよび不来店報告がないためシステムがデート完了と判定しました。']]},
     'BK-005':{id:'BK-005',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/10/28 19:00',people:'2名',payment:'当日相談して決める',status:'キャンセル',visit:'対象外',confirmed:{shop:'中目黒 こまち',date:'2026/10/28 19:00',name:'Otona Table / なお',number:'—'},cancel:{user:'なお',date:'2026/10/27 10:00',policy:'来店前キャンセル',fee:'4,000円',payment:'支払済み'},c:stores('MT-006',['予約確定','未使用','未使用']),logs:[['2026/10/27 10:00','なお','キャンセル','キャンセル料 4,000円・支払済み']]},
     'BK-006':{id:'BK-006',match:'MT-003',u1:['じゅん','U-0088'],u2:['えり','U-0112'],date:'2026/11/10 18:00',people:'2名',payment:'ごちそうする側が支払い',status:'キャンセル',visit:'対象外',confirmed:{shop:'中目黒 山灯り',date:'2026/11/10 18:00',name:'Otona Table / じゅん',number:'—'},cancel:{user:'えり',date:'2026/11/09 09:00',policy:'無料キャンセル期間内',fee:'0円',payment:'対象外'},c:stores('MT-003',['予約確定','未使用','未使用']),logs:[['2026/11/09 09:00','えり','キャンセル','キャンセル料 0円']]},
     'BK-007':{id:'BK-007',match:'MT-001',u1:['まい','U-0172'],u2:['りょう','U-0199'],date:'2026/03/27 19:00',people:'2名',payment:'当日相談して決める',status:'キャンセル',visit:'対象外',confirmed:{shop:'銀座 つきじ治作',date:'2026/03/27 19:00',name:'Otona Table / まい',number:'—'},cancel:{user:'りょう',date:'2026/03/26 12:00',policy:'来店前キャンセル',fee:'4,000円',payment:'未払い'},c:stores('MT-001',['予約確定','未使用','未使用']),logs:[['2026/03/26 12:00','りょう','キャンセル','決済失敗・未払い 4,000円']]},
-    'BK-008':{id:'BK-008',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/21 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'不来店報告あり',confirmed:{shop:'恵比寿 銀の皿',date:'2026/03/21 19:00',name:'Otona Table / さとみ',number:'—'},incident:{reporter:'さとみ',reported:'けいすけ',time:'2026/03/21 20:15',case:'US-33'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/03/21 20:15','さとみ','不来店報告','けいすけが来店しなかった・US-33へ連携']]},
+    'BK-008':{id:'BK-008',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/03/20 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'不来店報告あり',confirmed:{shop:'恵比寿 銀の皿',date:'2026/03/20 19:00',name:'Otona Table / さとみ',number:'—'},incident:{reporter:'さとみ',reported:'けいすけ',time:'2026/03/21 14:00',case:'US-33'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/03/21 14:00','さとみ','不来店報告','けいすけが来店しなかった・US-33へ連携'],['2026/03/21 10:00','システム','デート完了','予約日時を経過し、キャンセルおよび不来店報告がないためシステムがデート完了と判定しました。']]},
     'BK-009':{id:'BK-009',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/03/22 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'両者不来店確認済み',confirmed:{shop:'中目黒 こまち',date:'2026/03/22 19:00',name:'Otona Table / なお',number:'—'},incident:{reporter:'店舗',reported:'両者',time:'2026/03/22 21:00',case:'US-34'},c:stores('MT-006',['予約確定','未使用','未使用']),logs:[['2026/03/22 21:30','管理者','両者不来店確認済み','US-34に基づきキャンセル料を決定']]},
     'BK-010':{id:'BK-010',match:'MT-004',u1:['さとみ','U-0140'],u2:['けいすけ','U-0166'],date:'2026/11/07 18:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'来店前',confirmed:{shop:'恵比寿 銀の皿',date:'2026/11/07 18:00',name:'Otona Table / さとみ',number:'—'},change:{current:'2026/11/07 18:00',requested:'2026/11/08 19:00',user:'さとみ',time:'2026/11/06 21:00',result:'対応待ち'},c:stores('MT-004',['予約確定','未使用','未使用']),logs:[['2026/11/06 21:00','さとみ','予約変更依頼','2026/11/08 19:00を希望']]},
     'BK-011':{id:'BK-011',match:'MT-006',u1:['なお','U-0210'],u2:['はるか','U-0222'],date:'2026/10/28 19:00',people:'2名',payment:'当日相談して決める',status:'予約確定',visit:'来店前',confirmed:{shop:'中目黒 こまち',date:'2026/10/28 19:00',name:'Otona Table / なお',number:'—'},change:{current:'2026/10/28 19:00',requested:'2026/10/30 19:00',user:'はるか',time:'2026/10/29 09:00',result:'変更失敗・原予約を維持'},c:stores('MT-006',['予約確定','未使用','未使用']),logs:[['2026/10/29 09:00','はるか','予約変更依頼','2026/10/30 19:00を希望'],['2026/10/29 12:00','管理者','変更失敗','原予約を維持']]},
@@ -697,7 +696,7 @@
   const priorRecord=currentVisit==='両者不来店確認済み'||trouble.innerText.includes('両者不来店確認済み');
   let decision=null;
   try{decision=JSON.parse(localStorage.getItem(storageKey)||'null');}catch(e){decision=null;}
-  if(!decision&&bookingId==='BK-009') decision={restaurantFee:10000,user1Fee:7000,user2Fee:3000,total:10000,contactAt:'2026/03/22 21:00',contactMemo:'店舗から電話連絡。Adminが両者の不来店を確認。',reason:'店舗からの報告内容を確認し、Userごとの負担額を個別決定。',recordedAt:'2026/03/22 21:30',decidedAt:'2026/03/22 21:30',user1Id:'U-0210',user2Id:'U-0222'};
+  if(!decision&&bookingId==='BK-009') decision={restaurantFee:10000,chargeLimit:10000,user1Fee:7000,user2Fee:3000,total:10000,contactAt:'2026/03/22 21:00',contactMemo:'店舗から電話連絡。Adminが両者の不来店を確認。',reason:'店舗からの報告内容を確認し、Userごとの負担額を個別決定。',recordedAt:'2026/03/22 21:30',decidedAt:'2026/03/22 21:30',user1Id:'U-0210',user2Id:'U-0222'};
   const appointmentCompleted=currentVisit==='デート完了'||currentVisit.includes('両者不来店');
   if(!appointmentCompleted) return;
   const reservationName=valueAfterLabel(confirmed,'確定店舗');
@@ -716,7 +715,7 @@
     if(!decision)return;
     setVisit('両者不来店確認済み');
     const section=document.createElement('div');section.className='booking-noshow-result';
-    section.innerHTML='<div class="section-title">両者不来店・キャンセル料情報</div><div class="section-body"><h4>両者不来店情報</h4><div class="booking-noshow-grid"><div>状況</div><div>両者不来店確認済み</div><div>連絡元店舗</div><div>'+escapeHtml(reservationName)+'</div><div>連絡日時</div><div>'+escapeHtml(decision.contactAt)+'</div><div>記録日時</div><div>'+escapeHtml(decision.recordedAt)+'</div><div>連絡内容</div><div>'+escapeHtml(decision.contactMemo)+'</div></div><h4 style="margin-top:18px">キャンセル料情報</h4><div class="booking-noshow-grid"><div>店舗キャンセル料</div><div>'+escapeHtml(decision.restaurantFee)+'円</div><div>'+escapeHtml(users[0].label)+' 負担額</div><div>'+escapeHtml(decision.user1Fee)+'円（'+escapeHtml(users[0].id)+'）</div><div>'+escapeHtml(users[1].label)+' 負担額</div><div>'+escapeHtml(decision.user2Fee)+'円（'+escapeHtml(users[1].id)+'）</div><div>負担額合計</div><div>'+escapeHtml(decision.total)+'円</div><div>決定理由</div><div>'+escapeHtml(decision.reason)+'</div></div></div>';
+    section.innerHTML='<div class="section-title">両者不来店・キャンセル料情報</div><div class="section-body"><h4>両者不来店情報</h4><div class="booking-noshow-grid"><div>状況</div><div>両者不来店確認済み</div><div>連絡元店舗</div><div>'+escapeHtml(reservationName)+'</div><div>連絡日時</div><div>'+escapeHtml(decision.contactAt)+'</div><div>記録日時</div><div>'+escapeHtml(decision.recordedAt)+'</div><div>連絡内容</div><div>'+escapeHtml(decision.contactMemo)+'</div></div><h4 style="margin-top:18px">キャンセル料情報</h4><div class="booking-noshow-grid"><div>店舗キャンセル料</div><div>'+escapeHtml(decision.restaurantFee)+'円</div><div>請求上限額</div><div>'+escapeHtml(decision.chargeLimit ?? decision.restaurantFee)+'円</div><div>'+escapeHtml(users[0].label)+' 負担額</div><div>'+escapeHtml(decision.user1Fee)+'円（'+escapeHtml(users[0].id)+'）</div><div>'+escapeHtml(users[1].label)+' 負担額</div><div>'+escapeHtml(decision.user2Fee)+'円（'+escapeHtml(users[1].id)+'）</div><div>負担額合計</div><div>'+escapeHtml(decision.total)+'円</div><div>決定理由</div><div>'+escapeHtml(decision.reason)+'</div></div></div>';
     trouble.insertAdjacentElement('afterend',section);
   }
   if(decision){renderResult();return;}
@@ -742,6 +741,40 @@
     };
   }
   button.onclick=openModal;
+}());
+</script>
+<script>
+(function(){
+  /* US-34 wireframe supplement: the policy snapshot provides a read-only cap. */
+  function applyChargeLimit(){
+    const modal=document.querySelector('.booking-noshow-modal'); if(!modal) return;
+    const fee=modal.querySelector('#noshowRestaurantFee');
+    if(fee&&!modal.querySelector('#noshowChargeLimit')){
+      const label=document.createElement('label');label.htmlFor='noshowChargeLimit';label.textContent='請求上限額（円）';
+      const input=document.createElement('input');input.id='noshowChargeLimit';input.className='amount-input';input.type='number';input.value='10000';input.readOnly=true;
+      fee.insertAdjacentElement('afterend',label);label.insertAdjacentElement('afterend',input);
+      const warning=modal.querySelector('#noshowWarning');const confirm=modal.querySelector('#noshowConfirm');
+      if(confirm&&!confirm.dataset.limitBound){confirm.dataset.limitBound='true';confirm.addEventListener('click',function(event){const a=Number(modal.querySelector('#noshowUser1Fee')?.value),b=Number(modal.querySelector('#noshowUser2Fee')?.value),limit=Number(input.value);if(Number.isInteger(a)&&Number.isInteger(b)&&a+b>limit){event.stopImmediatePropagation();event.preventDefault();warning.textContent='負担額合計は請求上限額を超えることはできません。';warning.style.display='block';}},true);}
+    }
+    const summary=modal.querySelector('.booking-noshow-summary');if(summary&&!summary.querySelector('[data-charge-limit]')){const line=document.createElement('div');line.dataset.chargeLimit='true';line.textContent='請求上限額：10,000円';summary.children[1]?.insertAdjacentElement('afterend',line);}
+  }
+  new MutationObserver(applyChargeLimit).observe(document.body,{childList:true,subtree:true});
+}());
+</script>
+<script>
+(function(){
+  const id=new URLSearchParams(location.search).get('id')||location.hash.replace('#',''); if(id!=='BK-003') return;
+  const root=document.querySelector('.main-content .content-wrapper'); if(!root) return;
+  const confirmed=[...root.querySelectorAll('.booking-detail-section')].find(s=>s.querySelector('.section-title')?.textContent.includes('予約確定情報')); if(!confirmed) return;
+  const draft=document.createElement('div');draft.className='booking-detail-section';draft.innerHTML='<div class="section-title">店舗都合による代替店舗確認</div><div class="booking-detail-body"><p class="booking-empty">確定済み店舗が実際に提供できないことをAdminが確認した場合のみ記録します。Booking IDとユーザー向けキャンセル料は変更しません。</p><button type="button" class="action-btn" data-store-draft>店舗の提供不可を記録</button></div>';confirmed.insertAdjacentElement('afterend',draft);
+  const rows=()=>[...root.querySelectorAll('.candidate-row')];
+  const addHistory=(content,detail)=>{const body=root.querySelector('.booking-history tbody');if(!body)return;const row=document.createElement('tr');row.innerHTML='<td>2026/11/09 10:00</td><td>管理者</td><td>'+content+'</td><td>'+detail.replace(/[&<>]/g,'')+'</td>';body.prepend(row);};
+  const setGridValue=(section,label,value)=>{const cells=[...section.querySelectorAll('.booking-info-grid > div')];const i=cells.findIndex(c=>c.textContent.trim()===label);if(i>=0&&cells[i+1])cells[i+1].textContent=value;};
+  const setStatus=value=>setGridValue(root,'予約状況',value);
+  const setConfirmed=(shop,value)=>{setGridValue(confirmed,'確定店舗',shop);setGridValue(confirmed,'予約状況',value);};
+  const activateCandidate=index=>{const row=rows()[index];if(!row)return;const action=row.lastElementChild;action.innerHTML='<button type="button" class="candidate-action" data-draft-result="fail">予約不可</button> <button type="button" class="candidate-action" data-draft-result="accept">予約受付</button>';action.querySelectorAll('[data-draft-result]').forEach(button=>button.onclick=()=>resolveCandidate(index,button.dataset.draftResult));};
+  const resolveCandidate=(index,result)=>{const row=rows()[index];const shop=row.querySelector('strong').textContent.trim();row.querySelector('.candidate-state').textContent=result==='accept'?'予約確定':'予約不可';row.lastElementChild.textContent='—';if(result==='accept'){setStatus('予約確定');setConfirmed(shop,'予約確定');draft.querySelector('.booking-detail-body').innerHTML='<p class="booking-empty">代替店舗「'+shop+'」の予約を確定しました。Booking IDは維持されています。</p>';addHistory('代替店舗の予約確定',shop+'が予約受付。');return;}addHistory('代替店舗・予約不可',shop+'：予約不可');const next=rows().findIndex((r,i)=>i>index&&['未対応','未使用'].includes(r.querySelector('.candidate-state').textContent.trim()));if(next>=0){rows()[next].querySelector('.candidate-state').textContent='対応中';draft.querySelector('.booking-detail-body').innerHTML='<p class="booking-empty">「'+shop+'」は予約不可です。次の候補店舗を確認中です。Booking IDは維持されます。</p>';activateCandidate(next);}else{setStatus('予約不可');setConfirmed('—','予約不可');draft.querySelector('.booking-detail-body').innerHTML='<p class="booking-empty">食事プラン内の全候補店舗が予約不可です。Booking IDは維持されます。ユーザーが新しい食事プランを承認し、条件を満たす場合のみ新規Booking IDを作成します。</p>';addHistory('食事プラン内の全店舗が予約不可','Booking IDは維持。新規Booking IDは食事プラン再承認後のみ作成可能。');}};
+  draft.querySelector('[data-store-draft]').onclick=()=>{const modal=document.createElement('div');modal.className='candidate-confirm-modal';modal.innerHTML='<div class="candidate-confirm-dialog" role="dialog" aria-modal="true"><h2>店舗都合の提供不可を記録</h2><div class="dialog-body"><label>情報源</label><select id="storeIssueSource"><option>店舗からの連絡</option><option>Admin確認</option></select><br><br><label>提供不可の理由</label><textarea id="storeIssueReason" style="width:100%;min-height:70px"></textarea><p>記録後、次の候補店舗のみを確認します。Bookingは自動キャンセルされず、キャンセル料も発生しません。</p></div><div class="candidate-confirm-actions"><button class="action-btn" data-close>キャンセル</button><button class="action-btn" data-save>記録する</button></div></div>';document.body.append(modal);modal.querySelector('[data-close]').onclick=()=>modal.remove();modal.querySelector('[data-save]').onclick=()=>{const reason=modal.querySelector('#storeIssueReason').value.trim();if(!reason){alert('提供不可の理由を入力してください。');return;}const first=rows()[0];const oldShop=first.querySelector('strong').textContent.trim();first.querySelector('.candidate-state').textContent='確定後・提供不可';first.lastElementChild.textContent='—';setStatus('代替店舗確認中');setConfirmed(oldShop+'（提供不可）','代替店舗確認中');draft.querySelector('.booking-detail-body').innerHTML='<p class="booking-empty">「'+oldShop+'」の提供不可を記録しました。次の候補店舗を確認中です。Booking IDは維持され、ユーザーへのキャンセル料は発生しません。</p>';addHistory('店舗都合・提供不可',oldShop+'：'+reason);rows()[1].querySelector('.candidate-state').textContent='対応中';activateCandidate(1);modal.remove();};};
 }());
 </script>
 <style>
