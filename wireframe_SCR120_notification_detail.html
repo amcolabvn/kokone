@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-120 通知詳細</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; display: flex; justify-content: center; padding: 20px; }
+    .device-frame { width: 360px; height: 812px; border: 1.5px solid #212121; background: #fff; display: flex; flex-direction: column; overflow: hidden; }
+    .status-bar { height: 20px; background: #212121; }
+    .header { display: flex; align-items: center; gap: 12px; padding: 12px; border-bottom: 1px solid #e0e0e0; }
+    .back-arrow { font-size: 18px; color: #212121; cursor: pointer; }
+    .header-title { font-size: 16px; font-weight: 700; color: #212121; }
+    .content { flex: 1; padding: 24px 16px; overflow-y: auto; }
+    .notification-category { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; background:#f1f1f1; margin-bottom:14px; font-size:17px; }
+    .notification-time { font-size:12px; color:#9e9e9e; margin-bottom:12px; }
+    .notification-title { font-size:20px; font-weight:700; color:#212121; line-height:1.5; margin-bottom:20px; }
+    .notification-body { white-space:pre-line; font-size:14px; color:#424242; line-height:1.8; border-top:1px solid #e0e0e0; padding-top:20px; }
+    .cta-button,.back-list-button { width:100%; min-height:44px; margin-top:24px; border:1px solid #212121; background:#212121; color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .back-list-button { background:#fff; color:#212121; }.detail-state { padding:48px 4px; text-align:center; color:#757575; line-height:1.6; }.detail-state strong{display:block;color:#212121;margin-bottom:8px;}
+    .app-bottom-nav { height: 60px; background: #fff; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; align-items: center; padding-bottom: 5px; }
+    .bn-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #bbb; gap: 4px; }
+    .bn-item.active { color: #212121; }.bn-lbl { font-size: 10px; font-weight: 500; }.bn-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
+  </style>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="status-bar"></div>
+    <div class="header"><div class="back-arrow">←</div><div class="header-title">お知らせ詳細</div></div>
+    <main class="content" id="notificationDetail" aria-live="polite"></main>
+    <nav class="app-bottom-nav">
+      <a class="bn-item" href="wireframe_SCR060_flat.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span class="bn-lbl">さがす</span></a>
+      <a class="bn-item" href="wireframe_SCR063_likes_sent.html"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="bn-lbl">いいね</span></a>
+      <a class="bn-item" href="wireframe_SCR065_match.html"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg><span class="bn-lbl">マッチング</span></a>
+      <a class="bn-item" href="wireframe_SCR070_boshuu_list.html"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="bn-lbl">募集</span></a>
+      <a class="bn-item active" href="wireframe_SCR110_mypage.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><span class="bn-lbl">マイページ</span></a>
+    </nav>
+  </div>
+  <script src="notification-mock-data.js"></script>
+  <script>
+    const icons={AUTH:'✉',KYC:'✓',PROFILE:'◉',PHOTO:'▣',MATCH:'♡',BOSHU:'☷',PLAN:'◷',BOOK:'⌂',PAY:'¥',SAFE:'!',WITH:'↗'};
+    const params=new URLSearchParams(location.search), id=params.get('id'), filter=params.get('filter')||'all', detail=document.getElementById('notificationDetail');
+    const formatJst=value=>new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(value));
+    const back=()=>location.href='wireframe_SCR118_notification_list.html?filter='+encodeURIComponent(filter);
+    async function renderDetail(){try{const item=id&&await notificationService.get(id);if(!item){detail.innerHTML='<div class="detail-state"><strong>お知らせが見つかりません。</strong><button class="back-list-button">お知らせ一覧へ戻る</button></div>';detail.querySelector('button').onclick=back;return;}if(!item.read_at)await notificationService.markAsRead(id);detail.innerHTML=`<div class="notification-category">${icons[item.category]||'●'}</div><time class="notification-time" datetime="${item.created_at}">${formatJst(item.created_at)}</time><h1 class="notification-title">${item.title}</h1><div class="notification-body">${item.body}</div>${item.action_label&&item.action_target?`<button class="cta-button">${item.action_label}</button>`:''}`;const cta=detail.querySelector('.cta-button');if(cta)cta.onclick=()=>location.href=item.action_target;}catch(_){detail.innerHTML='<div class="detail-state"><strong>お知らせを取得できませんでした。</strong><button class="back-list-button">お知らせ一覧へ戻る</button></div>';detail.querySelector('button').onclick=back;}}
+    document.querySelector('.back-arrow').onclick=back;renderDetail();
+  </script>
+</body>
+</html>

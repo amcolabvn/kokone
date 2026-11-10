@@ -1,0 +1,22 @@
+/* Frontend-only fallback. Replace this service with the authenticated API when it is available. */
+(function () {
+  const notifications = [
+    { notification_id: 'book-004-01', recipient_user_id: 'current-user', event_type: 'BOOK-004', category: 'BOOK', title: '店舗予約が確定しました', body: '「銀座〇〇レストラン」で予約が確定しました。日時：2026年11月20日 19:00／人数：2名。', created_at: '2026-11-10T10:20:00+09:00', read_at: null, action_label: '予約詳細を見る', action_target: 'wireframe_SCR087_booking_detail.html', reference_id: 'booking-demo-01', payload: { store_name: '銀座〇〇レストラン', meeting_datetime_jst: '2026年11月20日 19:00', party_size: 2 } },
+    { notification_id: 'match-002-01', recipient_user_id: 'current-user', event_type: 'MATCH-002', category: 'MATCH', title: 'マッチングが成立しました', body: 'みずきさんとのマッチングが成立しました。チャットでお話ししてみましょう。', created_at: '2026-11-10T09:45:00+09:00', read_at: null, action_label: 'チャットを開く', action_target: 'wireframe_SCR090_chat.html', reference_id: 'match-demo-01', payload: { partner_name: 'みずき' } },
+    { notification_id: 'photo-001-01', recipient_user_id: 'current-user', event_type: 'PHOTO-001', category: 'PHOTO', title: '写真公開リクエストが届きました', body: 'ゆかりさんから写真公開リクエストが届いています。承認すると、お互いに「公開リクエスト対象」に設定している写真が公開されます。', created_at: '2026-11-09T18:30:00+09:00', read_at: null, action_label: 'リクエストを確認する', action_target: 'wireframe_SCR080_photo_request.html', reference_id: 'photo-request-demo-01', payload: { partner_name: 'ゆかり' } },
+    { notification_id: 'plan-001-01', recipient_user_id: 'current-user', event_type: 'PLAN-001', category: 'PLAN', title: '日程の提案が届きました', body: 'みずきさんから食事の日程候補が届きました。期限までにご確認ください。', created_at: '2026-11-09T12:10:00+09:00', read_at: null, action_label: '提案を確認する', action_target: 'wireframe_SCR090_meal_plan_proposal.html', reference_id: 'plan-demo-01', payload: { partner_name: 'みずき' } },
+    { notification_id: 'pay-004-01', recipient_user_id: 'current-user', event_type: 'PAY-004', category: 'PAY', title: 'Premium更新のお支払いを確認できませんでした', body: 'Premiumプランの更新決済に失敗したため、Premium機能は一時停止されています。カード情報をご確認ください。', created_at: '2026-11-08T15:30:00+09:00', read_at: '2026-11-08T16:02:00+09:00', action_label: 'カード情報を更新する', action_target: 'wireframe_SCR082_stripe_card.html', reference_id: 'payment-demo-01', payload: {} },
+    { notification_id: 'profile-002-01', recipient_user_id: 'current-user', event_type: 'PROFILE-002', category: 'PROFILE', title: 'プロフィール写真が削除されました', body: '登録されていた最後のプロフィール写真が運営により削除されました。現在、プロフィールはCard Viewや検索結果に表示されていません。マイページから新しい写真をご登録ください。', created_at: '2026-11-07T11:00:00+09:00', read_at: '2026-11-07T12:00:00+09:00', action_label: '新しい写真を登録する', action_target: 'wireframe_SCR031_photo.html', reference_id: 'profile-demo-01', payload: {} },
+    { notification_id: 'safe-006-01', recipient_user_id: 'current-user', event_type: 'SAFE-006', category: 'SAFE', title: 'アカウントの利用停止予定について', body: 'アカウントの利用停止が予定されています。開始日時：2026年11月15日 00:00／終了予定日時：2026年11月22日 00:00', created_at: '2026-11-06T09:00:00+09:00', read_at: '2026-11-06T09:20:00+09:00', action_label: '', action_target: '', reference_id: 'safety-demo-01', payload: {} },
+    { notification_id: 'kyc-003-01', recipient_user_id: 'current-user', event_type: 'KYC-003', category: 'KYC', title: '本人確認書類の再提出をお願いします', body: '本人確認を完了できませんでした。案内をご確認のうえ、書類を再提出してください。', created_at: '2026-11-05T14:15:00+09:00', read_at: '2026-11-05T14:25:00+09:00', action_label: '書類を再提出する', action_target: 'wireframe_SCR024_ekyc.html', reference_id: 'kyc-demo-01', payload: {} }
+  ];
+  const key = 'otona-table-notification-read-at';
+  const saved = () => { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) { return {}; } };
+  const mapped = n => ({ ...n, read_at: saved()[n.notification_id] || n.read_at });
+  window.notificationService = {
+    async list({ unreadOnly=false, page=1, pageSize=20 }={}) { const all=notifications.map(mapped).filter(n=>!unreadOnly||!n.read_at).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); return { items:all.slice((page-1)*pageSize,page*pageSize),hasMore:all.length>page*pageSize }; },
+    async get(id) { return notifications.map(mapped).find(n=>n.notification_id===id)||null; },
+    async markAsRead(id) { if(!notifications.some(n=>n.notification_id===id)) throw new Error('not_found'); const values=saved();values[id]=new Date().toISOString();localStorage.setItem(key,JSON.stringify(values));return this.get(id); },
+    async unreadCount() { return notifications.map(mapped).filter(n=>!n.read_at).length; }
+  };
+})();

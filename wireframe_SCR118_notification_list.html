@@ -58,6 +58,20 @@
       flex: 1;
     }
 
+    .mark-all-read {
+      border: 0;
+      background: transparent;
+      color: #424242;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 0 6px 8px;
+      white-space: nowrap;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .mark-all-read:active { color: #9e9e9e; }
+
     .content {
       flex: 1;
       overflow-y: auto;
@@ -75,9 +89,21 @@
     .notify-item:active {
       background: #fafafa;
     }
-    .notify-item.unread {
-      background: #fff9f0;
+    .notify-item.unread { background: #ffffff; }
+    .notify-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+    .unread-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #e53935;
+      display: none;
+      flex-shrink: 0;
+    }
+    .notify-item.unread .unread-dot { display: block; }
     
     .notify-text {
       font-size: 13px;
@@ -193,6 +219,29 @@
       zoom: var(--wf-global-zoom);
     }
   </style>
+  <style>
+    .header { gap: 8px; flex-wrap: wrap; }
+    .header-title { font-size: 18px; }
+    .mark-all-read { margin-left: auto; }
+    .notification-tabs { display:flex; width:100%; gap:16px; border-top:1px solid #f0f0f0; margin:4px -12px -12px; padding:0 12px; }
+    .notification-tab { border:0; border-bottom:2px solid transparent; background:transparent; padding:10px 3px 8px; font:inherit; font-size:12px; color:#757575; cursor:pointer; }
+    .notification-tab.active { border-color:#212121; color:#212121; font-weight:700; }
+    .unread-count { display:inline-flex; min-width:18px; height:18px; align-items:center; justify-content:center; margin-left:5px; padding:0 5px; border-radius:10px; background:#212121; color:#fff; font-size:10px; vertical-align:1px; }
+    .notify-item { display:grid; grid-template-columns:32px minmax(0,1fr); column-gap:10px; padding:14px 12px; text-align:left; width:100%; border:0; border-bottom:1px solid #f0f0f0; background:#fff; }
+    .notify-item.unread { background:#fffaf4; }
+    .category-icon { grid-row:span 2; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#f1f1f1; font-size:13px; }
+    .notify-meta { grid-column:2; order:-1; display:flex; align-items:center; gap:6px; }
+    .notify-time { font-size:11px; color:#9e9e9e; }
+    .notify-text { grid-column:2; font-size:13px; line-height:1.45; font-weight:600; }
+    .notify-preview { grid-column:2; color:#666; font-size:12px; line-height:1.45; display:-webkit-box; overflow:hidden; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+    .unread-dot { width:7px; height:7px; border-radius:50%; background:#d84b45; flex:0 0 auto; }
+    .empty-state,.error-state { padding:44px 20px; text-align:center; color:#757575; line-height:1.6; }
+    .empty-state strong,.error-state strong { display:block; color:#212121; margin-bottom:6px; }
+    .retry-button,.more-button { display:block; margin:16px auto; padding:8px 18px; border:1px solid #212121; background:#fff; color:#212121; font:inherit; font-size:12px; cursor:pointer; }
+    .skeleton-row { height:78px; border-bottom:1px solid #f0f0f0; background:linear-gradient(90deg,#fafafa 25%,#f0f0f0 37%,#fafafa 63%); background-size:400% 100%; animation:loading-shine 1.1s ease infinite; }
+    @keyframes loading-shine { to { background-position:-135% 0; } }
+    @media (max-width:600px){body{padding:0}.device-frame{width:100%;height:100vh;border:0}.wf-sidebar,.blp-wrap{display:none}body[style]{margin:0!important}.header{padding:12px 16px}.notify-item{padding:14px 16px}}
+  </style>
 </head>
 <body style="margin-left:200px; margin-right:280px;">
   <nav class="wf-sidebar">
@@ -268,43 +317,16 @@
 
     <div class="header">
       <div class="back-arrow" onclick="window.location.href='wireframe_SCR110_mypage.html'">←</div>
-      <div class="header-title">通知</div>
+      <div class="header-title">お知らせ<span id="unreadCount" class="unread-count" hidden></span></div>
+      <button class="mark-all-read" type="button" onclick="markAllAsRead()">すべて既読にする</button>
+      <div class="notification-tabs" role="tablist" aria-label="お知らせの絞り込み">
+        <button class="notification-tab active" type="button" data-filter="all" role="tab" aria-selected="true">すべて</button>
+        <button class="notification-tab" type="button" data-filter="unread" role="tab" aria-selected="false">未読</button>
+      </div>
     </div>
 
-    <div class="content">
-      <div class="notify-item unread">
-        <div class="notify-text">みずきさんから新しいメッセージが届きました。</div>
-        <div class="notify-time">10分前</div>
-      </div>
-      <div class="notify-item unread">
-        <div class="notify-text">新しいマッチングが成立しました！さっそくチャットを始めましょう。</div>
-        <div class="notify-time">2時間前</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">「和食居酒屋 雅」での予約が確定しました。</div>
-        <div class="notify-time">昨日 18:30</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">プロフィール写真の申請が承認されました。</div>
-        <div class="notify-time">3日前</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">本人確認が完了しました。</div>
-        <div class="notify-time">1週間前</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">【重要】システムメンテナンスのお知らせ（3月25日 02:00〜05:00）</div>
-        <div class="notify-time">1週間前</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">春のディナーキャンペーン！今なら対象店舗での食事が10%還元されます。</div>
-        <div class="notify-time">2週間前</div>
-      </div>
-      <div class="notify-item">
-        <div class="notify-text">先日の「和食居酒屋 雅」での食事はいかがでしたか？レビューを投稿してみましょう。</div>
-        <div class="notify-time">2週間前</div>
-      </div>
-    </div>
+    <div class="content" id="notificationList" aria-live="polite"></div>
+    <button id="moreButton" class="more-button" type="button" hidden>もっと見る</button>
 
     <div class="app-bottom-nav">
       <a class="bn-item" href="wireframe_SCR060_flat.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span class="bn-lbl">さがす</span></a>
@@ -357,6 +379,7 @@
     </div>
   </div>
 
+  <script src="notification-mock-data.js"></script>
   <script>
     function setBlpLang(lang) {
       document.querySelectorAll('.blp-lang').forEach(el => el.style.display = 'none');
@@ -364,6 +387,34 @@
       document.querySelectorAll('.blp-lang-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
     }
+    const icons = { AUTH:'✉', KYC:'✓', PROFILE:'◉', PHOTO:'▣', MATCH:'♡', BOSHU:'☷', PLAN:'◷', BOOK:'⌂', PAY:'¥', SAFE:'!', WITH:'↗' };
+    const list = document.getElementById('notificationList');
+    let activeFilter = new URLSearchParams(location.search).get('filter') || 'all';
+    let currentPage = 1;
+    const moreButton = document.getElementById('moreButton');
+    const formatJst = value => new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(value));
+    function itemTemplate(item) {
+      return `<button class="notify-item ${item.read_at ? '' : 'unread'}" type="button" data-id="${item.notification_id}"><span class="category-icon">${icons[item.category] || '●'}</span><span class="notify-meta">${item.read_at ? '' : '<span class="unread-dot" aria-label="未読"></span>'}<time datetime="${item.created_at}" class="notify-time">${formatJst(item.created_at)}</time></span><span class="notify-text">${item.title}</span><span class="notify-preview">${item.body}</span></button>`;
+    }
+    async function updateUnreadCount() { const count=await notificationService.unreadCount(); const badge=document.getElementById('unreadCount'); badge.hidden=!count; badge.textContent=count; }
+    async function renderNotifications(append = false) {
+      const state = new URLSearchParams(location.search).get('state');
+      if (state === 'loading') { list.innerHTML='<div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div>'; moreButton.hidden=true; return; }
+      if (state === 'error') { list.innerHTML='<div class="error-state"><strong>お知らせを取得できませんでした。</strong><button class="retry-button" onclick="location.search=\'\'">再読み込み</button></div>'; moreButton.hidden=true; return; }
+      try {
+        const result=await notificationService.list({unreadOnly:activeFilter==='unread',page:currentPage,pageSize:20});
+        if (!result.items.length&&!append) { list.innerHTML=`<div class="empty-state"><strong>${activeFilter==='unread'?'未読のお知らせはありません':'お知らせはありません'}</strong>${activeFilter==='unread'?'':'新しいお知らせが届くと、こちらに表示されます。'}</div>`; }
+        else { list.insertAdjacentHTML(append?'beforeend':'afterbegin',result.items.map(itemTemplate).join('')); }
+        moreButton.hidden=!result.hasMore;
+        await updateUnreadCount();
+      } catch (_) { list.innerHTML='<div class="error-state"><strong>お知らせを取得できませんでした。</strong><button class="retry-button" onclick="location.reload()">再読み込み</button></div>'; }
+    }
+    async function markAllAsRead() { const result=await notificationService.list(); await Promise.all(result.items.filter(item=>!item.read_at).map(item=>notificationService.markAsRead(item.notification_id))); renderNotifications(); }
+    function openNotificationDetail(id) { window.location.href=`wireframe_SCR120_notification_detail.html?id=${encodeURIComponent(id)}&filter=${activeFilter}`; }
+    document.querySelectorAll('.notification-tab').forEach(tab=>tab.addEventListener('click',()=>{activeFilter=tab.dataset.filter;currentPage=1;document.querySelectorAll('.notification-tab').forEach(el=>{const on=el===tab;el.classList.toggle('active',on);el.setAttribute('aria-selected',on)});history.replaceState(null,'',`?filter=${activeFilter}`);list.innerHTML='';renderNotifications();}));
+    list.addEventListener('click',event=>{const item=event.target.closest('.notify-item');if(item)openNotificationDetail(item.dataset.id)});
+    moreButton.addEventListener('click',()=>{currentPage++;renderNotifications(true);});
+    document.querySelector(`.notification-tab[data-filter="${activeFilter}"]`).click();
   </script>
 </body>
 </html>
