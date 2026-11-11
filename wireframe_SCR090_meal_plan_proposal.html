@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -419,6 +419,18 @@
     .party-modal-actions .cancel { border: 1px solid var(--c2); background: #fff; color: var(--c5); }
     .party-modal-actions .ok { border: none; background: var(--c6); color: #fff; }
     .summary-value { font-weight: 600; text-align: right; line-height: 1.45; }
+    .booking-process-note {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--c2);
+      border-left: 3px solid var(--c6);
+      background: #fafafa;
+      color: var(--c5);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    .booking-process-note strong { display: block; color: var(--c6); font-size: 12px; margin-bottom: 3px; }
+    .approval-scope-note { display:none; margin:0 16px 9px; color:var(--c5); font-size:10px; line-height:1.45; text-align:center; }
     .bottom-bar {
       position: absolute;
       left: 0;
@@ -854,10 +866,15 @@
         <div class="summary-row"><span class="summary-label">予約担当</span><span class="summary-value">男性</span></div>
         <div class="summary-row"><span class="summary-label">お会計</span><span class="summary-value">当日相談して決める</span></div>
       </div>
+      <div class="booking-process-note" id="bookingProcessNote" style="display:none;">
+        <strong>予約できない場合は、次の候補へ自動で進みます</strong>
+        <span>第1候補が確定しない場合、第2候補→第3候補の順に予約を行います。</span>
+      </div>
     </div>
     <div class="bottom-bar">
-      <button class="primary-btn" onclick="goApproveWaiting()">この内容で承認する</button>
-      <div class="link-row">
+      <div class="approval-scope-note" id="approvalScopeNote">承認すると、日時・人数・予約条件・第1〜第3候補を含む表示中の食事プラン全体に同意したことになります。</div>
+      <button class="primary-btn" id="approvePlanButton" onclick="goApproveWaiting()">この内容で承認する</button>
+      <div class="link-row" id="planChangeLinks">
         <button class="text-link" onclick="window.location.href='wireframe_SCR090_meal_plan_reschedule.html'">日時を変更する</button>
         <button class="text-link" onclick="goShopList()">店舗を変更する</button>
         <button class="text-link" onclick="openPartySizeModal()">人数を変更する</button>
@@ -1248,6 +1265,21 @@
       if (from === '090H') url += '?from=090H';
       window.location.href = url;
     }
+    function proposePlanChange() {
+      var planId = new URLSearchParams(window.location.search).get('plan') || '';
+      window.location.href = 'wireframe_SCR090_meal_plan_reschedule.html?from=082&plan=' + encodeURIComponent(planId);
+    }
+    function applyRecipientReviewMode() {
+      var role = new URLSearchParams(window.location.search).get('role');
+      if (role !== 'recipient') return;
+      document.querySelector('.page-title').textContent = '食事プランの確認';
+      document.querySelector('.back-btn').onclick = function () { window.location.href = 'wireframe_SCR082_date_confirm.html'; };
+      document.getElementById('bookingProcessNote').style.display = 'block';
+      document.getElementById('approvalScopeNote').style.display = 'block';
+      document.getElementById('approvePlanButton').textContent = '承認する';
+      document.getElementById('planChangeLinks').innerHTML = '<button class="text-link" type="button" onclick="proposePlanChange()">変更を提案する</button>';
+    }
+    applyRecipientReviewMode();
     if (params.get('from') === '090A') {
       var mainRestName = document.getElementById('mainRestName');
       if (mainRestName) {

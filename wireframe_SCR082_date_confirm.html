@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -803,21 +803,27 @@
     <a class="wf-nav-link" href="wireframe_SCR119_notifications.html"><span class="wf-nav-id">119</span>Notifications</a>
   </div>
   <div class="wf-sidebar-group">
-    <div class="wf-group-label">G · Admin</div>
-    <a class="wf-nav-link" href="wireframe_SCR200_admin_dashboard.html"><span class="wf-nav-id">200</span>Admin Dashboard</a>
-    <a class="wf-nav-link" href="wireframe_SCR201_activity_mgmt.html"><span class="wf-nav-id">201</span>Activity Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR203_partner_mgmt.html"><span class="wf-nav-id">203</span>Partner Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR204_user_mgmt.html"><span class="wf-nav-id">204</span>User Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR205_match_mgmt.html"><span class="wf-nav-id">205</span>Match Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR206_boshuu_mgmt.html"><span class="wf-nav-id">206</span>募集 Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR210_booking_mgmt.html"><span class="wf-nav-id">210</span>Booking Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR220_report_mgmt.html"><span class="wf-nav-id">220</span>Report Mgmt</a>
-    <a class="wf-nav-link" href="wireframe_SCR230_revenue.html"><span class="wf-nav-id">230</span>Revenue</a>
-    <a class="wf-nav-link" href="wireframe_SCR900_settings.html"><span class="wf-nav-id">900</span>Settings</a>
-    <a class="wf-nav-link" href="wireframe_NOT01_push_notification.html"><span class="wf-nav-id" style="font-size:9px;">NOT-01</span>プッシュ通知仕様</a>
-    <a class="wf-nav-link" href="wireframe_NOT02_email_notification.html"><span class="wf-nav-id" style="font-size:9px;">NOT-02</span>メール通知仕様</a>
+    <div class="wf-group-label">概要</div>
+    <a class="wf-nav-link" href="wireframe_SCR200_admin_dashboard.html"><span class="wf-nav-id">200</span>ダッシュボード</a>
   </div>
-</nav>
+  <div class="wf-sidebar-group">
+    <div class="wf-group-label">サービス管理</div>
+    <a class="wf-nav-link" href="wireframe_SCR204_user_mgmt.html"><span class="wf-nav-id">204</span>ユーザー管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR205_match_mgmt.html"><span class="wf-nav-id">205</span>マッチング管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR206_boshuu_mgmt.html"><span class="wf-nav-id">206</span>募集管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR203_partner_mgmt.html"><span class="wf-nav-id">203</span>店舗管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR210_booking_mgmt.html"><span class="wf-nav-id">210</span>予約管理</a>
+  </div>
+  <div class="wf-sidebar-group">
+    <div class="wf-group-label">運営・サポート</div>
+    <a class="wf-nav-link" href="wireframe_SCR220_report_mgmt.html"><span class="wf-nav-id">220</span>通報管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR240_notice_mgmt.html"><span class="wf-nav-id">240</span>お知らせ管理</a>
+    <a class="wf-nav-link" href="wireframe_SCR201_activity_mgmt.html"><span class="wf-nav-id">201</span>アクティビティ</a>
+  </div>
+  <div class="wf-sidebar-group">
+    <div class="wf-group-label">業績</div>
+    <a class="wf-nav-link" href="wireframe_SCR230_revenue.html"><span class="wf-nav-id">230</span>収益管理</a>
+  </div></nav>
 
 
     <div class="device">
@@ -872,28 +878,8 @@
                         <div class="proposal-head-sub">内容を確認し、問題なければ承認してください。</div>
                     </div>
                 </div>
-                <div class="plan-summary-card">
-                    <div class="plan-summary-photo" onclick="openShopDetail()"></div>
-                    <div class="plan-summary-info">
-                        <div class="plan-summary-name" id="receivedStoreName" onclick="openShopDetail()">食堂 まぐろとさば</div>
-                        <div class="plan-summary-row" id="receivedScheduleRow">
-                            <span id="receivedProposalDate">5/24（土）</span>
-                            <span id="receivedProposalTime">19:00〜</span>
-                            <span id="receivedPartySize">2名</span>
-                        </div>
-                        <div class="plan-summary-row">
-                            <span>お会計:</span>
-                            <span>当日相談して決める</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="proposal-actions">
-                    <button type="button" class="primary-btn" onclick="approveMealPlan()">この内容を承認する</button>
-                    <div class="link-row">
-                        <button type="button" class="text-link" onclick="window.location.href='wireframe_SCR090_meal_plan_reschedule.html?from=082'">日時を変更する</button>
-                        <button type="button" class="text-link" onclick="window.location.href='wireframe_SCR090_meal_plan_shop_pick.html?from=082'">店舗を変更する</button>
-                        <button type="button" class="text-link" onclick="openPartySizeModal()">人数を変更する</button>
-                    </div>
+                    <button type="button" class="primary-btn" onclick="window.location.href='wireframe_SCR090_meal_plan_proposal.html?role=recipient&plan=demo-082'">食事プランを確認する</button>
                 </div>
             </div>
         </div>
@@ -1015,7 +1001,7 @@
       </div>
       <div class="blp-section">
         <div class="blp-section-title">仕様</div>
-        <div class="blp-rule"><div class="blp-rule-dot">1</div><div class="blp-rule-text"><strong>チャット内カード</strong> — 見出し＋補足文のあと、左に店舗画像・右に店名（下線）・日時・人数・お会計を表示します。</div></div>
+        <div class="blp-rule"><div class="blp-rule-dot">1</div><div class="blp-rule-text"><strong>チャット内カード</strong> — 見出し＋補足文と「食事プランを確認する」ボタンのみを表示します。日時・人数・店舗候補は詳細画面で確認します。</div></div>
         <div class="blp-rule"><div class="blp-rule-dot">2</div><div class="blp-rule-text"><strong>ステッパー</strong> —「食事プラン提案」完了、「双方承認」が現在地です。</div></div>
         <div class="blp-rule"><div class="blp-rule-dot">3</div><div class="blp-rule-text"><strong>店舗詳細</strong> — サムネまたは店名タップで SCR060 同様の店舗詳細ポップアップを表示します。</div></div>
         <div class="blp-rule"><div class="blp-rule-dot">4</div><div class="blp-rule-text"><strong>承認</strong> — 「この内容を承認する」で 082D（双方承認完了・予約手続き開始）へ進みます。人数変更後の再提案承認時も同様です。</div></div>
