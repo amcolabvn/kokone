@@ -354,10 +354,10 @@
     <div class="filter-bar">
       <input type="text" class="filter-input user-search" placeholder="ユーザーID・ニックネームで検索...">
       <select class="filter-select user-filter"><option>アカウント状態: すべて</option><option>正常</option><option>制限中</option><option>停止中</option><option>退会済み</option></select>
-      <select class="filter-select user-filter"><option>本人確認: すべて</option><option>承認済</option><option>未申請</option><option>否認</option></select>
+      <select id="ekycFilter" class="filter-select user-filter"><option value="">本人確認: すべて</option><option>未申請</option><option>審査中</option><option>要確認</option><option>承認済み</option><option>否認</option></select>
       <select class="filter-select user-filter"><option>プラン: すべて</option><option>Premium</option><option>Free</option></select>
       <div class="user-date-filter"><span>登録日:</span><input type="date" class="filter-input" aria-label="登録日（From）"><span>〜</span><input type="date" class="filter-input" aria-label="登録日（To）"></div>
-      <button class="filter-button">検索</button>
+      <button class="filter-button" onclick="filterEkycUsers()">検索</button>
     </div>
 
     <div class="table-wrapper">
@@ -385,7 +385,7 @@
             <td>38歳</td>
             <td>東京都</td>
             <td><span class="plan-badge premium">Premium</span></td>
-            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td><span class="identity-badge verified">✓ 承認済み</span></td>
             <td>12</td>
             <td><span class="account-badge normal">● 正常</span></td>
             <td>2026/03/01</td>
@@ -398,7 +398,7 @@
             <td>37歳</td>
             <td>神奈川県</td>
             <td><span class="plan-badge premium">Premium</span></td>
-            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td><span class="identity-badge review">◷ 審査中</span></td>
             <td>8</td>
             <td><span class="account-badge restricted">● 制限中</span></td>
             <td>2026/03/02</td>
@@ -411,7 +411,7 @@
             <td>42歳</td>
             <td>千葉県</td>
             <td><span class="plan-badge free">Free</span></td>
-            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td><span class="identity-badge rejected">× 否認</span></td>
             <td>5</td>
             <td><span class="account-badge suspended">● 停止中</span></td>
             <td>2026/03/05</td>
@@ -424,7 +424,7 @@
             <td>35歳</td>
             <td>東京都</td>
             <td><span class="plan-badge premium">Premium</span></td>
-            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td><span class="identity-badge">— 未申請</span></td>
             <td>6</td>
             <td><span class="account-badge withdrawn">● 退会済み</span></td>
             <td>2026/02/14</td>
@@ -450,7 +450,7 @@
             <td>36歳</td>
             <td>東京都</td>
             <td><span class="plan-badge premium">Premium</span></td>
-            <td><span class="identity-badge verified">✓ 承認済</span></td>
+            <td><span class="identity-badge verified">✓ 承認済み</span></td>
             <td>9</td>
             <td><span class="account-badge normal">● 正常</span></td>
             <td>2026/03/16</td>
@@ -474,6 +474,7 @@
   </div>
 </div>
 <script>
+  function filterEkycUsers() { const value = document.getElementById('ekycFilter').value; document.querySelectorAll('.table tbody tr').forEach(row => { row.hidden = Boolean(value) && !row.cells[6].textContent.includes(value); }); }
   (function syncUserManagementStatus() {
     const defaults = { '001': '正常', '002': '制限中', '003': '停止中', '005': '正常', '006': '正常' };
     const classes = { '正常': 'normal', '制限中': 'restricted', '停止中': 'suspended', '退会済み': 'withdrawn' };

@@ -659,7 +659,7 @@
         </div>
 
         <!-- Identity Verification Alert (When Fail) -->
-        <div class="verify-alert">
+        <div id="ekycStatusCard" class="verify-alert">
           <div class="v-alert-head">
             <span>⚠️ 本人確認が必要です</span>
             <span style="font-size: 10px; background:#fff; padding:2px 4px; border:1px solid #ffcc80;">否認</span>
@@ -723,10 +723,6 @@
 
         <div class="menu-section">
           <div class="section-title">設定</div>
-          <div class="menu-row" onclick="window.location.href='wireframe_SCR119_notifications.html'">
-            <span>⚙️ 通知設定</span>
-            <span class="menu-arrow">></span>
-          </div>
           <div class="menu-row" onclick="window.location.href='wireframe_SCR116_secret_mode.html'">
             <span>🔒 シークレットモード</span>
             <span class="menu-value">OFF <span class="menu-arrow">></span></span>
@@ -742,7 +738,11 @@
         </div>
 
         <div class="menu-section">
-          <div class="section-title">サポート・ガイド</div>
+          <div class="section-title">お知らせ・サポート</div>
+          <div class="menu-row" onclick="window.location.href='wireframe_SCR118_notification_list.html'">
+            <span>🔔 お知らせ</span>
+            <span class="menu-arrow">></span>
+          </div>
           <div class="menu-row" onclick="window.location.href='wireframe_LP_guides.html'">
             <span>❓ ヘルプ</span>
             <span class="menu-arrow">></span>
@@ -850,6 +850,18 @@
       });
       btn.classList.add('active');
     }
+    (function renderEkycStatus(){
+      const state = new URLSearchParams(location.search).get('ekyc') || 'denied';
+      const card = document.getElementById('ekycStatusCard');
+      const states = {
+        none: { title:'本人確認', badge:'未提出', body:'本人確認書類がまだ提出されていません。サービスをご利用いただくために、本人確認書類を提出してください。', action:'本人確認を始める', href:'wireframe_SCR024_ekyc.html' },
+        reviewing: { title:'本人確認', badge:'審査中', body:'現在、審査を行っています。審査結果は後ほどお知らせいたします。' },
+        approved: { title:'本人確認', badge:'承認済み', body:'本人確認が正常に完了しました。' },
+        denied: { title:'本人確認', badge:'否認', body:'本人確認書類を確認できませんでした。提出内容をご確認のうえ、再度提出してください。', action:'再提出する', href:'wireframe_SCR024_ekyc.html' }
+      };
+      const item = states[state] || states.denied;
+      card.innerHTML = `<div class="v-alert-head"><span>${state==='approved'?'✓':'⚠'} ${item.title}</span><span style="font-size:10px;background:#fff;padding:2px 4px;border:1px solid #ffcc80;">${item.badge}</span></div><div class="v-alert-body">${item.body}</div>${item.action?`<a href="${item.href}" class="v-alert-btn">${item.action}</a>`:''}`;
+    })();
   </script>
 </div>
 
